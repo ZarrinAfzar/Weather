@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Weather.Tools
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @{
     var user = await UserManager.GetUserAsync(User);
-
 }
 
 <!DOCTYPE html>
@@ -511,10 +511,14 @@
             </div>
         </div>
         <!-- /Right-bar -->
-
+       
     </div>
     <!-- END wrapper -->
-
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">نسخه برنامه: @VersionHelper.GetVersion()</span>
+        </div>
+    </footer>
     <script>
         var resizefunc = [];
     </script>

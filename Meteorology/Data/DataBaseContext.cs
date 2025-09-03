@@ -25,7 +25,7 @@ namespace Weather.Data
         {
             modelBuilder.Entity<SensorDateTime>().HasIndex(b => b.DateTime);
 
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
         }
 
         public void OpenConnection()
@@ -46,7 +46,7 @@ namespace Weather.Data
         public DbSet<Notification> Notification { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<SmsCharge> SmsCharge { get; set; }
-        public DbSet<State> State { get; set; } 
+        public DbSet<State> State { get; set; }
         public DbSet<Station> Station { get; set; }
         public DbSet<StationFile> StationFile { get; set; }
         public DbSet<StationTel> StationTel { get; set; }
@@ -55,12 +55,12 @@ namespace Weather.Data
         public DbSet<UserStation> UserStation { get; set; }
         public DbSet<UserAction> UserAction { get; set; }
         //-----------------------------------------------------
-        public DbSet<Alarm> Alarm { get; set; } 
-        public DbSet<AlarmLog> AlarmLog { get; set; } 
+        public DbSet<Alarm> Alarm { get; set; }
+        public DbSet<AlarmLog> AlarmLog { get; set; }
         public DbSet<AlarmTell> AlarmTell { get; set; }
         public DbSet<ForecastsAlarmDetail> ForecastsAlarmDetail { get; set; }
         public DbSet<ForecastsAlarmParameter> ForecastsAlarmParameter { get; set; }
-        public DbSet<ForecastsLog> ForecastsLog { get; set; } 
+        public DbSet<ForecastsLog> ForecastsLog { get; set; }
         public DbSet<PestAlarmDetail> PestAlarmDetails { get; set; }
         public DbSet<SensorAlarmDetail> SensorAlarmDetail { get; set; }
         //public DbSet<SensorData> SensorData { get; set; }
@@ -68,13 +68,13 @@ namespace Weather.Data
         public DbSet<SendSMS> SendSMS { get; set; }
         public DbSet<SensorSetting> SensorSetting { get; set; }
         public DbSet<SensorType> SensorType { get; set; }
-        public DbSet<SensorAlarmDetail> SensorAlarmDetails { get; set; } 
+        public DbSet<SensorAlarmDetail> SensorAlarmDetails { get; set; }
         public DbSet<UserLoginHistory> UserLoginHistory { get; set; }
         public DbSet<Unit> Unit { get; set; }
         public DbSet<ReceivedSMS> ReceivedSMS { get; set; }
         public DbSet<VirtualSensorBase> VirtualSensorBase { get; set; }
         public DbSet<VirtualSensorDetail> VirtualSensorDetail { get; set; }
-       
+        public DbSet<VersionHistory> VersionHistories { get; set; }
     }
     #region IDesignTimeDbContextFactory
     //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataBaseContext>
