@@ -1,0 +1,42 @@
+﻿<style>
+    .sendsms {
+        color: #F80;
+        border: 2px solid #F80;
+        padding: 8px;
+        border-radius: 100px;
+        cursor:pointer;
+    }
+        .sendsms:hover {
+            color: #FFF;
+            background-color: #0094ff
+        }
+</style>
+<div class="m-t-40">
+    <div class="text-center">
+        <h4 class="text-uppercase font-bold m-b-0">برای ارسال کد فعالسازی کلیک کنید</h4>
+        <i class="zmdi zmdi-comment-more sendsms" onclick="sendsms(@ViewBag.UserId)"></i>
+    </div>
+    <div class="panel-body">
+        <form method="post" action="index.html" role="form" class="text-center">
+                <div class="form-group">
+                <p class="text-muted m-t-10">
+                    کد ارسال شده به شماره تفلن خود را وارد کنید تا پنل کاربری شما فعال شود
+                </p>
+                <div class="input-group m-t-30 ">
+                    <input type="hidden" id="UserId" value="@ViewBag.UserId" />
+                    <input type="hidden" id="RegisterCode" value="@ViewBag.RegisterCode" />
+                    <input type="hidden" id="PhoneNumber" value="@ViewBag.PhoneNumber" />
+                    <input type="text" class="form-control" placeholder="####" id="registerCode">
+                    <span class="input-group-btn">
+                        <button onclick="SendRegisterCode()" type="button" class="btn btn-pink w-sm waves-effect waves-light">
+                            فعال سازی
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>

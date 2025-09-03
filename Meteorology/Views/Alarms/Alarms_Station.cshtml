@@ -1,0 +1,73 @@
+﻿@model Station
+
+<div class="modal-body">
+        <div class="card-box task-detail">
+            <h4 class="font-600 m-b-20 text-danger">@Model.Name</h4>
+
+            <div class="row">
+                <ul class="list-inline task-dates m-b-0 m-t-20">
+                    <li>
+                        <h5 class="font-600 m-b-5">پروژه :</h5>
+                        <p> @Model.Project.Name</p>
+                    </li>
+
+                    <li>
+                        <h5 class="font-600 m-b-5">شماره سریال ایستگاه :</h5>
+                        <p>@Model.SerialNumber<small class="text-muted">@Model.Project.Code</small></p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">نوع ایستگاه :</h5>
+                        <p>@Model.StationType.Name</p>
+                    </li>
+
+                    <li>
+                        <h5 class="font-600 m-b-5">نوع دیتالاگر :</h5>
+                        <p>@Model.DataLogger.Name</p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">نوع مودم :</h5>
+                        <p>@Model.ModemType.Name</p>
+                    </li>
+
+                    <li>
+                        <h5 class="font-600 m-b-5">شماره سیم کارت ایستگاه :</h5>
+                        <p>@Model.StationCardNumber</p>
+                    </li>
+
+                    <li>
+                        <h5 class="font-600 m-b-5">شناسه 2 محل :</h5>
+                        <p>@Model.LocationKeyTwo</p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">شناسه 1 محل :</h5>
+                        <p>@Model.LocationKeyOne</p>
+                    </li>
+
+                    <li>
+                        <h5 class="font-600 m-b-5">عرض جغرافیایی محل :</h5>
+                        <p>@Model.Latitude</p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">طول جغرافیایی محل :</h5>
+                        <p> @Model.Longitude</p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">کد ایستگاه :</h5>
+                        <p>@Model.StationCode</p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">ارتفاع از سطح دریای محل :</h5>
+                        <p> @Model.AboveSeaLevel</p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">تعداد پیامک های موجود :</h5>
+                        <p> @Model.SmsCount<small class="text-muted">عدد</small></p>
+                    </li>
+                    <li>
+                        <h5 class="font-600 m-b-5">به روز رسانی ساعت ایستگاه :</h5>
+                        <p> @(Model.UpdateTime ? "دارد" : "ندارد") </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</div> 

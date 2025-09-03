@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.PageTitle = "گزارش وضعیت ایستگاه ها";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive m-b-10">
+            <div class="project-sort pull-left">
+                <div class="project-sort-item">
+                    <div class="form-inline">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="FromDate" name="FromDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت  گزارش">
+                        </div>
+
+                        <div class="form-group  m-l-10 ">
+                            <button onclick="StationStatusReport_filter()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5">گزارش </button>
+                            <button onclick="ExportToExcel()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5 export">خروجی excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box  table-responsive">
+            <div class="row col-sm-6" id="StationStatusReport_List">
+
+            </div>
+
+        </div>
+
+    </div><!-- end col -->
+</div>
+
+
+@section Scripts
+    {
+    <script src="~/MyScript/StationStatusReport/StationStatusReport.js"></script>
+}

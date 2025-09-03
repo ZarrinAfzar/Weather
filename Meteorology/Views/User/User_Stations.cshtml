@@ -1,0 +1,47 @@
+﻿ @model List<Station>
+<div class="row">
+    <h3>پروژه</h3>
+    <input type="hidden"  id="User_Stattions_UserId"/>
+    <select class="form-control input-sm"  asp-items="@ViewBag.ProjectList" id="User_Stations_Project">
+        <option>پروژه...</option>
+    </select>
+</div>
+<div class="row">
+    <ul class="list-group" id="User_Stations">
+    </ul>
+</div>
+<div class="row">
+    <h6>ایستگاه های کاربر</h6>
+    @{
+        foreach (var item in Model)
+        {
+            <span class="label label-primary" id="UserStation_@item.Id">@item.Name</span>
+        }
+    }
+</div>
+
+<script> 
+    $('#User_Stations_Project').change(function () {
+        GetStation($(this).val(),$("#User_Stattions_UserId").val());
+    });
+    function UserStationAccessChange(e) {
+        $.ajax({
+            url: "/User/SetStationToUser/",
+            type: "post",
+            cache: false,
+            dataType: "json",
+            data: { userId : $("#User_Stattions_UserId").val(),stationId : $(e).attr("StationId") ,projectId :  $('#User_Stations_Project').val(),state : $(e).prop('checked')},
+            success: function (result) {
+                if (result) {
+                    if ($(e).prop('checked') === true) {
+                        messageBox("success", " دسترسی به ایستگاه" +" " + $(e).attr("Stationtext") +" " + " به کاربر داده شد");
+                    } else {
+                        messageBox("success", " دسترسی به ایستگاه" +" " + $(e).attr("Stationtext") +" " +"از کاربر گرفته شد");
+                    }
+                } else {
+                    messageBox("error", "خطا در سیستم");
+                }
+            }
+        });
+    }
+</script>

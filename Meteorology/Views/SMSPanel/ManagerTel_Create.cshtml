@@ -1,0 +1,82 @@
+﻿@model Weather.Models.ManagerTel
+
+@using (Html.BeginForm("ManagerTel_Create", "SMSPanel", FormMethod.Post, new { id = "formManagerTelCreate" }))
+{
+    @Html.HiddenFor(m => m.Id, new { Value = 0 })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, "نام")
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", name = "Name" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, "نام خانوادگی")
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", name = "LastName" })
+        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Tel, "شماره تلفن")
+        @Html.TextBoxFor(m => m.Tel, new {
+        @class = "form-control",
+        placeholder = "09123456789",
+        pattern = @"09\d{9}",
+        title = "شماره موبایل باید با 09 شروع شده و 11 رقم باشد",
+        required = "required"
+        })
+    @Html.ValidationMessageFor(m => m.Tel, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="Start" id="Start" class="form-check-input" @(Model?.Start == true ? "checked" : "") />
+        <label for="Start" class="form-check-label">شروع</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="End" id="End" class="form-check-input" @(Model?.End == true ? "checked" : "") />
+        <label for="End" class="form-check-label">پایان</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="Sum12" id="Sum12" class="form-check-input" @(Model?.Sum12 == true ? "checked" : "") />
+        <label for="Sum12" class="form-check-label">مجموع 12 ساعته</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="Sum24" id="Sum24" class="form-check-input" @(Model?.Sum24 == true ? "checked" : "") />
+        <label for="Sum24" class="form-check-label">مجموع 24 ساعته</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="Warning" id="Warning" class="form-check-input" @(Model?.Warning == true ? "checked" : "") />
+        <label for="Warning" class="form-check-label">هشدار سیل</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="Sum" id="Sum" class="form-check-input" @(Model?.Sum == true ? "checked" : "") />
+        <label for="Sum" class="form-check-label">مجموع</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="Accepted" id="Accepted" class="form-check-input" @(Model?.Accepted == true ? "checked" : "") />
+        <label for="Accepted" class="form-check-label">تایید شده</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="NotAccepted" id="NotAccepted" class="form-check-input" @(Model?.NotAccepted == true ? "checked" : "") />
+        <label for="NotAccepted" class="form-check-label">تایید نشده</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="SumOprator" id="SumOprator" class="form-check-input" @(Model?.SumOprator == true ? "checked" : "") />
+        <label for="SumOprator" class="form-check-label">مجموع متصدیان</label>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox" name="Type" value="AcceptEditInsert" id="AcceptEditInsert" class="form-check-input" @(Model?.AcceptEditInsert == true ? "checked" : "") />
+        <label for="AcceptEditInsert" class="form-check-label">پیامک صبحگاهی</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">ذخیره</button>
+}

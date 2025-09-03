@@ -1,0 +1,22 @@
+﻿@model ReceivedSMS
+<form id="formBody_ReceivedSMS" role="form">
+    <div class="custom-modal-text">
+        <div class="row">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <input type="hidden" asp-for="@Model.Id" id="Id" />
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_Tel">مقدار باران</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.Value" id="Value" class="form-control input-sm">
+                    </div>
+                </div>
+
+
+                <button type="button" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="ReceivedSMS_Save();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+                @*<button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();">  <i class="zmdi zmdi-close" style="font-weight: bolder;"></i> </button>*@
+            </div>
+        </div>
+    </div>
+</form>

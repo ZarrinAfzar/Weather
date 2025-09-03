@@ -1,0 +1,96 @@
+﻿@model List<User>
+@{
+    if (Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-lg-4 m-t-10">
+                <div class="card-box project-box projectCardBox" style="min-height: 250px;">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="user-box" style="padding-top: 0px;">
+                                <div class="user-img">
+                                    <img src="@item.ImagePath" alt="user-img" class="img-circle img-thumbnail img-responsive">
+                                    <div class="user-status offline"><i class="zmdi zmdi-dot-circle"></i></div>
+                                </div>
+                                <ul class="list-inline userButtonBox  m-t-30">
+                                    @{
+                                        if (User.IsInRole("AdminiStratore") || User.IsInRole("UserEdit"))
+                                        {
+                                            <li>
+                                                <button onclick="Edit(@item.Id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش" style="border: none;background-color: transparent ">
+                                                    <i class="zmdi zmdi-edit text-primary"></i>
+                                                </button>
+                                            </li>
+                                        }
+                                        if (User.IsInRole("AdminiStratore") || User.IsInRole("UserDelete"))
+                                        {
+                                            <li>
+                                                <button onclick="Delete(@item.Id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف" style="border: none;background-color: transparent ">
+                                                    <i class="zmdi zmdi-delete text-danger"></i>
+                                                </button>
+                                            </li>
+                                        }
+                                        if (User.IsInRole("AdminiStratore") || User.IsInRole("UserAccess"))
+                                        {
+                                            <li>
+                                                <button onclick="User_Access(@item.Id)"  data-toggle="tooltip" data-placement="top" title="" data-original-title="دسترسی ها"style="border: none;background-color: transparent ">
+                                                    <i class="zmdi zmdi-alert-triangle text-primary"></i>
+                                                </button>
+                                            </li>
+                                        }
+                                        if (User.IsInRole("AdminiStratore") || User.IsInRole("UserNotification"))
+                                        {
+                                            <li>
+                                                <button onclick="User_Notification(@item.Id,'@item.Name','@item.LastName')" data-toggle="tooltip" data-placement="top" title="" data-original-title="پیام" style="border: none;background-color: transparent ">
+                                                    <i class="zmdi zmdi-comment text-primary"></i>
+                                                </button>
+                                            </li>
+                                        }
+                                        if (User.IsInRole("AdminiStratore") || User.IsInRole("UserCorrespondence"))
+                                        {
+                                            <li>
+                                                <button onclick="User_CorrespondenceAnswer(@item.Id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="انتقادات و پیشنهادات" style="border: none;background-color: transparent ">
+                                                    <i class="zmdi zmdi-comments text-primary"></i>
+                                                </button>
+                                            </li>
+                                        }
+                                       
+                                        if (User.IsInRole("AdminiStratore") || User.IsInRole("UserStation"))
+                                        {
+                                            <li>
+                                                <button onclick="User_Stations(@item.Id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="ایستگاه ها" style="border: none;background-color: transparent ">
+                                                    <i class="zmdi zmdi-nature-people text-primary"></i>
+                                                </button>
+                                            </li>
+                                        }
+                                       
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 userBox">
+                            <b>نام :</b>
+                            <p>@item.Name</p>
+                            <b>نام خانوادگی :</b>
+                            <p>@item.LastName</p>
+                            <b>نام کاربری :</b>
+                            <p>@item.UserName</p>
+                            <b>شهر :</b>
+                            <p>@( item.CityId == null ? "----" : item.City.Name)</p>
+                            <b>پست الکترونیکی :</b>
+                            <p>@(item.Email == null ? "----" : item.Email)</p>
+                            <b>تلفن :</b>
+                            <p>@item.PhoneNumber</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h4 style="text-align:center;margin-top:20px;color:orangered">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+}

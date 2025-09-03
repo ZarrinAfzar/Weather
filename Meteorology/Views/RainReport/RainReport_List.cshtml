@@ -1,0 +1,53 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable
+<style>
+    .sticky-top th {
+        top: -20px!important;
+    }
+</style>
+@if (Model.Rows.Count == 0)
+{
+    <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+}
+else
+{
+    <table class="table table-striped table-bordered" id="datatable-buttons">
+        <thead class="bg-whit">
+            <tr class="sticky-top">
+                <th style="text-align:center">تاریخ</th>
+                <th colspan="2" style="text-align:center">18:30 دیروز تا 6:30 صبح</th>
+                <th colspan="2" style="text-align:center">6:30 صبح تا 18:30 عصر</th>
+                <th colspan="2" style="text-align:center">مجموع بارش</th>
+            </tr>
+            <tr class="sticky-top">
+                <td></td>
+                <td align="center">الکترونیکی</td>
+                <td align="center">متصدی</td>
+                <td align="center">الکترونیکی</td>
+                <td align="center">متصدی</td>
+                <td align="center">الکترونیکی</td>
+                <td align="center">متصدی</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (DataRow dr in Model.Rows)
+            {
+                <tr>
+                    @foreach (DataColumn dc in Model.Columns)
+                    {
+                        if (dc.Caption == "Datetime")
+                        {
+                            <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd")</td>
+                        }
+                        else
+                        {
+                            <td>@dr[dc].ToString()</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<PestAlarmDetail>
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            @*<th>نام آلارم</th>*@
+            <th>دمای پایه</th>
+            <th>دمای حداکثر</th>
+            <th>نام مرحله اول</th>
+            <th>نام مرحله دوم</th>
+            <th>نام مرحله سوم</th>
+            <th>نام مرحله چهارم</th>
+            <th>نام مرحله پنجم</th>
+            <th>مقدار مرحله دوم</th>
+            <th>مقدار مرحله سوم</th>
+            <th>مقدار مرحله چهارم</th>
+            <th>مقدار مرحله پنجم</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr id="PestAlarmDetailRow_@item.Id" class="@item.Alarm.AlarmColor">
+                    @*<td>@item.Alarm.AlarmName</td>*@
+                    <td>@item.TempBase</td>
+                    <td>@item.TempMax</td>
+                    <td>@item.LevelName1</td>
+                    <td>@item.LevelName2</td>
+                    <td>@item.LevelName3</td>
+                    <td>@item.LevelName4</td>
+                    <td>@item.LevelName5</td>
+                    <td>@item.PDDLevel2</td>
+                    <td>@item.PDDLevel3</td>
+                    <td>@item.PDDLevel4</td>
+                    <td>@item.PDDLevel5</td>
+                                  </tr>
+            }
+        }
+    </tbody>
+</table>

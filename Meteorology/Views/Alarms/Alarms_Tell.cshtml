@@ -1,0 +1,44 @@
+﻿@model Weather.Data.ViewModel.AlarmTellViewModel
+
+
+<div class="custom-modal-text">
+    <input type="hidden" id="AlarmId" value="@Model.AlarmId" />
+    <div class="row StationTell">
+        <div class="col-md-12">
+            <h4 style="color:#F80">تلفن های ایستگاه :</h4>
+            <ul class="list-group" id="StationTellList">
+                @{
+                    foreach (var item in Model.StationTels) 
+                    {
+                        <li class="list-group-item" id="TellItem_@item.Id">
+                            <span class="badge badge-primary telButton" onclick="AlarmTell_Add(@item.Id)"><i class="zmdi zmdi-plus"></i></span>
+                            <p  style="margin-bottom: 0px;text-align: right">
+                                    <b>@item.Name @item.LastName</b>
+                                    <text class="text-primary"> @item.Post  تلفن : @item.Tel</text>
+                                </p>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="row AlarmTell" style="border-top:1px solid #bbb">
+        <div class="col-md-12">
+            <h4 style="color:#F80">تلفن های آلارم :</h4>
+            <ul class="list-group" id="AlarmTellList">
+                @{
+                    foreach (var item in Model.AlarmTells)
+                    {
+                        <li class="list-group-item" id="TellItem_@item.Id">
+                            <span class="badge badge-primary telButton" onclick="AlarmTell_Delete(@item.Id)"><i class="zmdi zmdi-delete "></i></span>
+                            <p style="margin-bottom: 0px;text-align: right">
+                                    <b>@item.StationTel.Name @item.StationTel.LastName</b>
+                                    <text class="text-primary"> تلفن : @item.StationTel.Tel</text>
+                                </p>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.PageTitle = "نمودار";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive m-b-10">
+            <div class="project-sort pull-left">
+                <div class="project-sort-item">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>انتخاب پروژه :</label>
+                            <select id="Chart_Project" asp-items="@ViewBag.ProjectList" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>تمام موارد</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب ایستگاه :</label>
+                            <select id="Chart_Station" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>پروژه انتخاب نشده است</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="FromDate" name="FromDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت شروع گزارش">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="ToDate" name="ToDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت پایان گزارش">
+                        </div>
+                        <div class="form-group">
+                            <label style="margin:4px;"> نوع محاسبه :</label>
+                            <div class="m-b-10" style="float: left;border: 1px solid #e3e3e3;border-radius: 3px;">
+                                <div class="radio radio-success" style="margin-right: 20px;">
+                                    <input type="radio" name="DateType" id="AllData" value="AllData" checked="" onclick="reportState()">
+                                    <label for="AllData"> همه داده ها </label>
+                                </div>
+                                <div class="radio radio-success m-r-10">
+                                    <input type="radio" name="DateType" id="InDay" value="InDay" onclick="reportState()">
+                                    <label for="InDay"> داده های روزانه </label>
+                                </div>
+                                <div class="radio radio-success">
+                                    <input type="radio" name="DateType" id="InMonth" value="InMonth" onclick="reportState()">
+                                    <label for="InMonth"> داده های ماهانه </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin:0 0 10px 0" />
+                        <div class="row">
+                            <div class="col-md-5" style="border: 1px solid #bbb;margin-bottom: 5px;margin-left: 5%;margin-right: 6%;">
+                                <p>سنسور سمت راست :</p>
+                                <select id="Chart_RightSensor" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                    <option selected>ایستگاه انتخاب نشده است</option>
+                                </select>
+                                <div class="m-b-10">
+                                    <p> انتخاب نوع گزارش نمودار راست</p>
+
+                                    <div class="radio radio-success radio-inline">
+                                        <input type="radio" name="Right_computingType" id="Right_Avg" value="Avg" class="Rchb_ReportType">
+                                        <label for="Right_Avg"> میانگین </label>
+                                    </div>
+                                    <div class="radio radio-success">
+                                        <input type="radio" name="Right_computingType" id="Right_Min" value="Min" class="Rchb_ReportType">
+                                        <label for="Right_Min"> حداقل </label>
+                                    </div>
+                                    <div class="radio radio-success">
+                                        <input type="radio" name="Right_computingType" id="Right_Max" value="Max" class="Rchb_ReportType">
+                                        <label for="Right_Max"> حداکثر </label>
+                                    </div>
+                                    <div class="radio radio-success">
+                                        <input type="radio" name="Right_computingType" id="Right_Sum" value="Sum" class="Rchb_ReportType">
+                                        <label for="Right_Sum"> مجموع </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5" style="border:1px solid #bbb;margin-bottom :3px;">
+                                <p>سنسور سمت چپ :</p>
+                                <select id="Chart_LeftSensor" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                    <option selected>ایستگاه انتخاب نشده است</option>
+                                </select>
+                                <div class="m-b-10">
+                                    <p> انتخاب نوع گزارش نمودار چپ</p>
+                                    <div class="radio radio-success radio-inline">
+                                        <input type="radio" name="Left_computingType" id="Left_Avg" value="Avg" class="Lchb_ReportType">
+                                        <label for="Left_Avg"> میانگین </label>
+                                    </div>
+                                    <div class="radio radio-success">
+                                        <input type="radio" name="Left_computingType" id="Left_Min" value="Min" class="Lchb_ReportType">
+                                        <label for="Left_Min"> حداقل </label>
+                                    </div>
+                                    <div class="radio radio-success ">
+                                        <input type="radio" name="Left_computingType" id="Left_Max" value="Max" class="Lchb_ReportType">
+                                        <label for="Left_Max"> حداکثر </label>
+                                    </div>
+                                    <div class="radio radio-success">
+                                        <input type="radio" name="Left_computingType" id="Left_Sum" value="Sum" class="Lchb_ReportType">
+                                        <label for="Left_Sum"> مجموع </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="Chart_filter()" type="button" style="padding:4px 0 2px 0px;margin:4px 6% 0 0" class="btn btn-primary waves-effect w-md waves-light m-b-5">نمایش نمودار</button>
+                        <a id="SaveChart" download="filename.jpg" style="display:none;padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5">ذخیره نمودار</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col-->
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <div class="row" id="Chart_View">
+                <div class="col-md-12" id="boxChart">
+                    @*<div id="lineChart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>*@
+
+                    <div id="trend_bl" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col -->
+</div>
+@section Scripts
+    {
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    @*<script src="~/js/highcharts.js"></script>*@
+    <script src="~/js/exporting.js"></script>
+
+    <script src="~/MyScript/Chart/Chart.js"></script>
+
+}

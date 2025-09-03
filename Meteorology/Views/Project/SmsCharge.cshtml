@@ -1,0 +1,65 @@
+﻿@using Weather.Data.Base
+@model List<SmsCharge>
+
+<div class="row">
+    <div class="card-box project-box projectCardBox litelCardBox" style="height:655px;max-height:655px;">
+        <h5><b style="float: right; margin-bottom: 5px;">  تعداد کل پیامک های مورد نیاز پنل پیامک: @ViewBag.SmsPsnel</b></h5><br/>
+        <table class="table table-condensed m-0 " id="datatable-buttons">
+            <thead>
+                <tr>
+                    <th>کد پروژه</th>
+                    <th>نام پروژه</th>
+                    <th>پیامک شارژ شده</th>
+                    <th>تاریخ شارژ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Project.Code</td>
+                            <td>@item.Project.Name</td>
+                            <td>@item.Count</td>
+                            <td>@item.InsertDate.ToPeString("dddd - dd MMMM - yyyy HH:mm:ss")</td>
+                            <td>
+                                <button onclick="SmsRequest(@item.Project.Id)" class="btn btn-icon waves-effect waves-light btn-primary" style="float: left;margin:3px;">@($"شارژ مجدد پیامک های {item.Project.Name}")</button>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+
+@section Scripts
+    {
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/jszip.min.js"></script>
+    <script src="~/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/pages/datatables.init.js"></script>
+    <script src="~/MyScript/Project/Project.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            TableManageButtons.init();
+        });
+    </script>
+}

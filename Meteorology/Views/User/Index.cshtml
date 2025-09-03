@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.PageTitle = "کاربران";
+}
+
+<div class="row headerbox">
+    <div class="col-sm-2">
+        @{
+            if (User.IsInRole("AdminiStratore") || User.IsInRole("UserNew"))
+            {
+                <button onclick="New()" class="btn btn-primary waves-effect w-md waves-light m-b-5">کاربر جدید</button>
+            }
+        }
+    </div>
+    <div class="col-sm-10">
+        <div class="project-sort pull-right">
+            <div class="project-sort-item">
+                <div class="form-inline">
+                    <div class="form-group" style="border: 1px solid #dedede;padding: 4px;border-radius: 27px;width: 300px;margin: 3px 0 0 10px;">
+                        <input type="text" class="col-md-11" style="border: none;" id="UserNameSearch_value" name="UserNameSearch_value" value="" placeholder="جستجو...">
+                        <i class="zmdi zmdi-search" style="font-size: 17px;font-size: 20px;margin-top: 1px;float: right;cursor: pointer;color: #f80;" onclick="UserName_Search()"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>چینش بر اساس :</label>
+                        <select id="UserSort" class="form-control input-sm" style="width: 300px;margin: 3px 0 0 10px;">
+                            <option value="0">---------------</option>
+                            <option value="1">اولین به آخرین</option>
+                            <option value="2">آخرین به اولین</option>
+                            <option value="3">تاریخ صعودی</option>
+                            <option value="4">تاریخ نزولی</option>
+                            <option value="5">نام کاربری صعودی</option>
+                            <option value="6">نام کاربری نزولی</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row  m-t-10" id="UserList">
+</div>
+@section Scripts
+    {
+    <script src="~/MyScript/User/User.js"></script>
+}
+

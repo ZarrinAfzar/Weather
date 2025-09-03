@@ -1,0 +1,232 @@
+﻿@model Station
+<form id="formBody_Station">
+    <div class="form-horizontal">
+        <div class="row">
+            <input type="hidden" asp-for="Id" id="Id" name="Id" value="@Model.Id" />
+            <input type="hidden" asp-for="SmsCount" value="@Model.SmsCount" />
+            <div class="col-md-6">
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">شماره سریال ایستگاه :</b></h5>
+                    @{
+                        if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                        {
+                            <input type="text" asp-for="SerialNumber" class="form-control input-sm" name="SerialNumber" id="SerialNumber" />
+                        }
+                        else
+                        {
+                            <input type="text" asp-for="SerialNumber" class="form-control input-sm" name="SerialNumber" id="SerialNumber" readonly="readonly" />
+                        }
+                    }
+
+                </div>
+                <div class="m-t-20">
+
+                    <h5><b style="float: right; margin-bottom: 5px;">نوع دیتالاگر :</b></h5>
+                    @{ if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                        {
+                            <select asp-for="DataLoggerId" asp-items="@ViewBag.DataLoggerList" id="DataLoggerId" class="form-control input-sm">
+                                <option value="">انتخاب دیتالاگر</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select asp-for="DataLoggerId" asp-items="@ViewBag.DataLoggerList" id="DataLoggerId" class="form-control input-sm" disabled="disabled">
+                                <option value="">انتخاب دیتالاگر</option>
+                            </select>}
+                    }
+
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">نوع مودم :</b></h5>
+                    @{ if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                        {<select asp-for="ModemTypeId" asp-items="@ViewBag.ModemTypeList" id="ModemTypeId" class="form-control input-sm">
+                                <option value="">انتخاب مودم</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select asp-for="ModemTypeId" asp-items="@ViewBag.ModemTypeList" id="ModemTypeId" class="form-control input-sm" disabled="disabled">
+                                <option value="">انتخاب مودم</option>
+                            </select>
+                        }
+                    }
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">شناسه 1 محل :</b></h5>
+                    <input type="text" asp-for="LocationKeyOne" id="LocationKeyOne" name="LocationKeyOne" class="form-control input-sm">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">طول جغرافیایی محل :</b></h5>
+                    <input type="text" asp-for="Longitude" class="form-control input-sm" name="Longitude" id="Longitude">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">ارتفاع از سطح دریا :</b></h5>
+                    <input type="text" asp-for="AboveSeaLevel" id="AboveSeaLevel" name="AboveSeaLevel" class="form-control input-sm">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">نام متصدی ایستگاه :</b></h5>
+                    <input type="text" asp-for="OperatorName" id="OperatorName" name="OperatorName" class="form-control input-sm">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">کد ایستگاه :</b></h5>
+                    @{
+                        if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                        {
+                            <input type="text" asp-for="StationCode" id="StationCode" name="StationCode" class="form-control input-sm" />
+                        }
+                        else
+                        {
+
+                            <input type="text" asp-for="StationCode" id="StationCode" name="StationCode" class="form-control input-sm" readonly="readonly" />
+
+                        } }
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">نام ایستگاه :</b></h5>
+                    <input type="text" asp-for="Name" id="Name" name="Name" class="form-control input-sm">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">پروژه :</b></h5>
+                    @{
+                        if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                        {
+                            <select asp-for="ProjectId" asp-items="@ViewBag.ProjectList" class="form-control input-sm">
+                                <option value="">انتخاب پروژه</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select asp-for="ProjectId" asp-items="@ViewBag.ProjectList" class="form-control input-sm" disabled="disabled">
+                                <option value="">انتخاب پروژه</option>
+                            </select>
+                        }
+                    }
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">نوع ایستگاه :</b></h5>
+                    @{
+                        if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                        {
+                            <select asp-for="StationTypeId" asp-items="@ViewBag.StationTypeList" class="form-control input-sm">
+                                <option value="">انتخاب ایستگاه</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select asp-for="StationTypeId" asp-items="@ViewBag.StationTypeList" class="form-control input-sm" disabled="disabled">
+                                <option value="">انتخاب ایستگاه</option>
+                            </select>
+                        }}
+
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">شناسه 2 محل :</b></h5>
+                    <input type="text" asp-for="LocationKeyTwo" id="LocationKeyTwo" name="LocationKeyTwo" class="form-control input-sm">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">عرض جغرافیایی محل :</b></h5>
+                    <input type="text" asp-for="Latitude" id="Latitude" name="Latitude" class="form-control input-sm">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">شماره سیم کارت ایستگاه :</b></h5>
+                    <input type="text" asp-for="StationCardNumber" id="StationCardNumber" name="StationCardNumber" class="form-control input-sm">
+                </div>
+               
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">تلفن متصدی ایستگاه :</b></h5>
+                    <input type="text" asp-for="OperatorPhonNO" id="OperatorPhonNO" name="OperatorPhonNO" class="form-control input-sm">
+                </div>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">  ضریب تیسن:</b></h5>
+                    <input type="text" asp-for="Tisen" id="Tisen" name="Tisen" class="form-control input-sm">
+                </div>
+                <div class="m-t-40">
+                    <div class="checkbox checkbox-primary">
+                        @{
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                            {
+                                <input id="UpdateTime" asp-for="UpdateTime" name="UpdateTime" type="checkbox" value="@Model.UpdateTime" />
+                            }
+                            else
+                            {
+                                <input id="UpdateTime" asp-for="UpdateTime" name="UpdateTime" type="checkbox" value="@Model.UpdateTime" disabled="disabled" />
+                            } }
+                        <label for="UpdateTime">
+                            به روز رسانی ساعت ایستگاه
+                        </label>
+                    </div><br />
+
+                    <div class="checkbox checkbox-primary">
+                        @{
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                            {
+                                <input id="UpdateSetting" asp-for="UpdateSetting" name="UpdateSetting" type="checkbox" value="@Model.UpdateSetting" />
+                            }
+                            else
+                            { <input id="UpdateSetting" asp-for="UpdateSetting" name="UpdateSetting" type="checkbox" value="@Model.UpdateSetting" disabled="disabled" />
+                            } }
+                        <label for="UpdateSetting">
+                            به روز رسانی تنظیمات ایستگاه
+                        </label>
+                    </div>
+                </div>
+            </div>
+                </div>
+        <div class="modal-footer m-t-40">
+            @{
+                if (Model.Id != 0)
+                {
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("StationEdit"))
+                    {
+                        <button type="submit" onclick="Save_Station();" data-toggle="tooltip" data-placement="top" title="ویرایش" data-original-title="ویرایش" class="btn btn-icon waves-effect waves-light btn-success"> <i class="zmdi zmdi-edit" style="font-weight: bolder;"></i> </button>
+                    }
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("StationTel"))
+                    {
+                        <button type="button" onclick="StationTel_List(@Model.Id)" data-toggle="tooltip" data-placement="top" title="تلفن" data-original-title="تلفن" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-phone"></i></button>
+                    }
+
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("StationUpload"))
+                    {
+                        <button type="button" onclick="StationFile_List(@Model.Id)" data-toggle="tooltip" data-placement="top" title="فایل" data-original-title="فایل" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-attachment-alt"></i></button>
+                    }
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("StationProject"))
+                    {
+                        <button type="button" onclick="StationGetProjectInfo(@Model.ProjectId)" data-toggle="tooltip" data-placement="top" title="پروژه" data-original-title="پروژه" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-brightness-4"></i></button>
+                    }
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("StationSms"))
+                    {
+                        <button type="button" onclick="StationSms(@Model.Id)" data-toggle="tooltip" data-placement="top" title="پیامک" data-original-title="پیامک" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-comment-more"></i></button>
+                    }
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("StationDelete"))
+                    {
+                        <button type="button" onclick="Delete(@Model.Id)" data-toggle="tooltip" data-placement="top" title="حذف" data-original-title="حذف" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-delete text-danger "></i></button>
+                    }
+                    <button type="button" onclick="DetailStation()" class="btn btn-icon waves-effect waves-light btn-danger">  <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </button>
+                    <b style="float:left;color:#ff6a00;"> ( @Model.SmsCount عدد پیامک دارد ) </b>
+                }
+                else
+                {
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("StationNew"))
+                    {
+                        <button type="submit" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="Save_Station();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+                    }
+                    if (User.IsInRole("AdminiStratore") || User.IsInRole("ManagerTel"))
+                    {
+                        <button type="button" onclick="ManagerTel_List()" data-toggle="tooltip" data-placement="top" title="دفترچه تلفن مدیران" data-original-title="دفترچه تلفن مدیران" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-phone"></i></button>
+                    }
+                    @*<a asp-controller="Station" asp-action="Index" class="btn btn-icon waves-effect waves-light btn-danger m-b-5">  <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </a>*@
+                }
+
+            }
+
+        </div>
+    </div>
+
+</form>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

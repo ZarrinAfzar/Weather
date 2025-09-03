@@ -1,0 +1,104 @@
+﻿@using Weather.Data.Base
+@{
+    ViewBag.PageTitle = $"صفحه اصلی ({DateTime.Now.ToPeString("dddd, dd MMMM,yyyy")})";
+}
+@model List<Weather.Data.ViewModel.MapViewModel>
+
+<style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        height: 85vh;
+    }
+</style>
+
+<div id="map"></div>
+
+@section Scripts{
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+    <script>
+                    var locations =  @Html.Raw(Json.Serialize(Model));
+            // The overlay layer for our marker, with a simple diamond as symbol
+        var overlay = new OpenLayers.Layer.Vector('Overlay');
+            var popup;
+            var myLocation;
+            //  we create the map
+            map = new OpenLayers.Map({
+                div: "map", projection: "EPSG:3857",
+                layers: [new OpenLayers.Layer.OSM(), overlay],
+                center: ol.proj.fromLonLat([54.0, 32.0]),
+                zoom: 7
+            });
+            for (i = 0; i < locations.length; i++)
+            {
+
+                if (locations[i].latitude != null && locations[i].longitude != null)
+                {
+                    myLocation = new OpenLayers.Geometry.Point(locations[i].longitude, locations[i].latitude)
+                    .transform('EPSG:4326', 'EPSG:3857');
+
+                // We add the marker with a tooltip text to the overlay
+                    var feature = new OpenLayers.Feature.Vector(
+                        myLocation, {
+                            description: retContent(locations[i].stationName, locations[i].dateTime, locations[i].sensorLastDatas)
+                            ,tooltip: locations[i].stationName
+                        },
+
+                        { externalGraphic: locations[i].icon, graphicHeight: 25, graphicWidth: 21, graphicXOffset: -12, graphicYOffset: -25, title: locations[i].stationName }
+                    );
+
+                    overlay.addFeatures(feature);
+                    map.addLayer(overlay);
+                    var controls = {
+                        selector: new OpenLayers.Control.SelectFeature(overlay, { onSelect: createPopup, onUnselect: destroyPopup })
+                    };
+                    function createPopup(feature) {
+                        feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+                            feature.geometry.getBounds().getCenterLonLat(),
+                            null,
+                            '<div>' + feature.attributes.description + '</div>',
+                            null,
+                            true,
+                            function () { controls['selector'].unselectAll(); }
+                        );
+                        //feature.popup.closeOnMove = true;
+                        map.addPopup(feature.popup);
+                    }
+
+                    function destroyPopup(feature) {
+                        feature.popup.destroy();
+                        feature.popup = null;
+                    }
+
+                    map.addControl(controls['selector']);
+                    controls['selector'].activate();
+
+
+                }
+            }
+
+
+        function retContent(name, datetime, lst_datavalue) {
+            var result = '<div style="padding: 0 9px 0 0;overflow: hidden;width: 190px;">' +
+                '<h5 class="font-600 text-danger" style="direction: rtl;text-align:right;">' + name + '</h5>' +
+                '<h5 class="m-b-20 text-danger" style="direction: rtl;text-align: right;">' + datetime + '</h5>' +
+                '<ul class="list-inline task-dates row">';
+            if (lst_datavalue) {
+                $.each(lst_datavalue, function () {
+                    result += '<li style="float:right;clear:right;width: 190px;margin: 0px;height: 30px;"><h6 class="font-600" style="float: right;clear:right;margin: 0px !important;">' + this['faName'] + ' : </h6> <p style="float: right;margin-right: 5px;">' + this['data'] + '</p></li>';
+                })
+            } else {
+                result += '<li><h6 class="font-600"></h6><p>هیچ داده ای ثبت نشده است</p></li>';
+            }
+
+            result += '</ul> </div>';
+            return result;
+        }
+    </script>
+
+
+}
+
+
+

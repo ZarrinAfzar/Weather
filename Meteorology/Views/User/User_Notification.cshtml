@@ -1,0 +1,14 @@
+﻿<div class="custom-modal-text">
+    <div class="row">
+        <div class="col-md-12 m-b-15">
+            <b class="text-primary">ارسال پیام برای  <text id="NotificationUserName"></text></b>
+            <div class="m-t-20">
+                <input type="hidden" id="NotificationUserId"/>
+                <h5><b style="float: right;margin-bottom: 5px;">متن پیام :</b></h5>
+                <textarea id="NotificationUserMessage" class="form-control" maxlength="225" rows="2" placeholder="متنی با 255 کارکتر"></textarea>
+            </div>
+        </div>
+        <button type="button" onclick="User_Notification_Save()" class="btn btn-icon waves-effect waves-light btn-success m-b-5"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+       @* <button class="btn btn-icon waves-effect waves-light btn-danger m-b-5"  onclick="Custombox.close();">  <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </button>*@
+    </div>
+</div>

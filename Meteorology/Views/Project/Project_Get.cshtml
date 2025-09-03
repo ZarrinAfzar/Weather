@@ -1,0 +1,30 @@
+﻿@model Project
+
+<form id="formBody">
+    <div class="modal-body">
+        <input type="hidden" asp-for="Id" id="Id" name="Id" value="@Model.Id" />
+        <input type="hidden" asp-for="SmsCount" id="SmsCount" name="SmsCount" value="@Model.SmsCount" />
+
+
+
+        <h5><b style="float: right; margin-bottom: 5px;">کد :</b></h5>
+        <input type="text" asp-for="Code" class="form-control input-sm" name="Code" id="Code">
+
+        <div class="m-t-20">
+            <h5><b style="float: right; margin-bottom: 5px;">عنوان :</b></h5>
+            <input type="text" asp-for="Name" class="form-control input-sm" name="Name" id="Name">
+        </div>
+               <div class="m-t-20">
+            <h5><b style="float: right; margin-bottom: 5px;">توضیحات :</b></h5>
+            <textarea asp-for="Detail" class="form-control" id="Detail" name="Detail"></textarea>
+        </div>
+        
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="Save();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+        @*<button type="button" class="btn btn-icon waves-effect waves-light btn-danger m-b-5"  onclick="Custombox.close();">  <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </button>*@
+    </div>
+</form>
+
+ 

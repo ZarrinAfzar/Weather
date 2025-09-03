@@ -1,0 +1,50 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model IEnumerable<ReceivedSMS>
+
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>تاریخ</th>
+            <th>ارسال کننده</th>
+            <th>نام ایستگاه</th>
+            <th>نوع پیامک</th>
+            <th>مقدار</th>
+            <th>متن پیامک</th>
+            <th>#</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.DatePrs</td>
+                    <td>@item.From</td>
+                    <td>@item.StationName</td>
+                    <td>@item.Type</td>
+                    <td>@item.Value</td>
+                    <td>@item.Message</td>
+                    <td>
+                         <button onclick="ReceivedSMS_Delete(@item.Id)" class="icon circle-icon red zmdi zmdi-delete text-info" style="border: 2px solid #35b8e0;background-color: #FFF !important;"></button>
+
+                        <button onclick="ReceivedSMS_EditValue(@item.Id)" class="icon circle-icon red zmdi zmdi-edit text-info" style="border: 2px solid #35b8e0;background-color: #FFF !important;"></button>
+                        @{
+                            if (item.Accepted)
+                            {
+                                <button onclick="ReceivedSMS_DeAccepted(@item.Id,0)" class="icon circle-icon red zmdi zmdi-check text-info" style="border: 2px solid #35b8e0;background-color: #0F0 !important;"></button>
+                            }
+                            else
+                            {
+                                <button onclick="ReceivedSMS_Accepted(@item.Id,1)" class="icon circle-icon red zmdi zmdi-check text-info" style="border: 2px solid #35b8e0;background-color: #F00 !important;"></button>
+                            }
+                        }
+                       
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,132 @@
+﻿@model PestAlarmDetail
+<form id="formBody_PestAlarmDetail" role="form">
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-horizontal">
+                <input type="hidden" asp-for="Id" id="Id" name="Id" />
+                <input type="hidden" asp-for="AlarmId" id="AlarmId" name="AlarmId" />
+                <input type="hidden" asp-for="CountLevel" id="CountLevel" name="CountLevel" />
+                <input type="hidden" asp-for="LevelNow" id="LevelNow" name="LevelNow" />
+                <input type="hidden" asp-for="PDDDate2" id="PDDDate2" name="PDDDate2" />
+                <input type="hidden" asp-for="PDDDate3" id="PDDDate3" name="PDDDate3" />
+                <input type="hidden" asp-for="PDDDate4" id="PDDDate4" name="PDDDate4" />
+                <input type="hidden" asp-for="PDDDate5" id="PDDDate5" name="PDDDate5" />
+                <input type="hidden" asp-for="DateLevel2" id="DateLevel2" name="DateLevel2" />
+                <input type="hidden" asp-for="DateLevel3" id="DateLevel3" name="DateLevel3" />
+                <input type="hidden" asp-for="DateLevel4" id="DateLevel4" name="DateLevel4" />
+                <input type="hidden" asp-for="DateLevel5" id="DateLevel5" name="DateLevel5" />
+               
+                <b>@Model.Alarm.AlarmName</b>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="TempBase">دمای پایه :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="TempBase" id="TempBase" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="TempMax">دمای حداکثر :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="TempMax" id="TempMax" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="LevelName1">نام مرحله اول :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="LevelName1" id="LevelName1" class="form-control input-sm">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="checkbox checkbox-primary">
+                            <input id="ch_level2" type="checkbox" onclick="SetLevel(this,2)">
+                            <label for="ch_level2">
+                                مرحله دوم
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="level" id="Level2">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="PDDLevel2">مقدار گذر به مرحله دوم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="PDDLevel2" id="PDDLevel2" class="form-control input-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="LevelName2">نام مرحله دوم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="LevelName2" id="LevelName2" class="form-control input-sm">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="checkbox checkbox-primary">
+                                <input id="ch_level3" type="checkbox" onclick="SetLevel(this,3)">
+                                <label for="ch_level3">
+                                    مرحله سوم
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="level" id="Level3">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="PDDLevel3">مقدار گذر به مرحله سوم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="PDDLevel3" id="PDDLevel3" class="form-control input-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="LevelName3">نام مرحله سوم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="LevelName3" id="LevelName3" class="form-control input-sm">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="checkbox checkbox-primary">
+                                <input id="ch_level4" type="checkbox" onclick="SetLevel(this,4)">
+                                <label for="ch_level4">
+                                    مرحله چهارم
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="level" id="Level4">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="PDDLevel4">مقدار گذر به مرحله چهارم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="PDDLevel4" id="PDDLevel4" class="form-control input-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="LevelName4">نام مرحله چهارم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="LevelName4" id="LevelName4" class="form-control input-sm">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="checkbox checkbox-primary">
+                                <input id="ch_level5" type="checkbox" onclick="SetLevel(this,5)">
+                                <label for="ch_level5">
+                                    مرحله پنجم
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="level" id="Level5">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="PDDLevel5">مقدار گذر به مرحله پنجم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="PDDLevel5" id="PDDLevel5" class="form-control input-sm">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="LevelName5">نام مرحله پنجم :</label>
+                        <div class="col-sm-6">
+                            <input type="text" asp-for="LevelName5" id="LevelName5" class="form-control input-sm">
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="PestAlarmDetail_Save();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+                @*<button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();">  <i class="zmdi zmdi-close" style="font-weight: bolder;"></i> </button>*@
+            </div>
+        </div>
+    </div>
+</form>

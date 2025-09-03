@@ -1,0 +1,59 @@
+﻿@using Weather.Data.Base;
+@model List<Alarm>
+@{
+    if (Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-lg-4 m-t-5">
+                <div class="card-box project-box projectCardBox" style="min-height: 280px;">
+                    <div class="label btn-group m-b-10">
+                        @{
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("AlarmsStation"))
+                            {
+                                <button onclick="Alarms_Station(@item.StationId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="ایستگاه" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-nature-people"></i></button>
+                            }
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("AlarmsTel"))
+                            {
+                                <button onclick="AlarmTell_List(@item.Id,@item.StationId)" data-toggle="tooltip" data-placement="top" title="" data-original-title="شماره تلفن" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-phone"></i></button>
+                            }
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("DeleteAlarms"))
+                            {
+                                <button onclick="Alarms_Delete(@item.Id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="حذف" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-delete text-danger "></i></button>
+                            }
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("EditAlarms"))
+                            {
+                                <button onclick="Alarms_Get(@item.Id)" data-toggle="tooltip" data-placement="top" title="" data-original-title="ویرایش" class="btn btn-primary btn-trans waves-effect"><i class="zmdi zmdi-edit"></i></button>
+                            }
+                        }
+                    </div><br/><br/>
+                    <h4 class="m-t-0"><a href="" class="text-inverse">@item.AlarmName</a></h4>
+                    <p class="text-primary text-uppercase font-13"><b>تاریخ شروع :</b>@item.AlarmStartDate.ToPeString()</p>
+                    <p class="text-primary text-uppercase font-13"><b>  تاریخ پایان :</b>@item.AlarmEndDate.ToPeString()</p>
+                    <p class="text-inverse font-13">
+                        @item.AlarmMessage
+                    </p>
+                    <ul class="list-inline">
+                        <li>
+                            <h5 class="m-b-0">@item.AlarmTells.Count</h5>
+                            <p class="text-inverse">تلفن ها</p>
+                        </li>
+                        <li>
+                            <h5 class="m-b-0">@item.Station.SmsCount</h5>
+                            <p class="text-inverse">پیامک های ایستگاه</p>
+                        </li>
+                        <li>
+                            <h6 class="m-b-0">@item.Station.Name</h6>
+                            <p class="@item.AlarmColor">@item.AlarmType.GetDisplayName()</p>
+                        </li>
+                    </ul>
+                    <b></b>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h4 style="text-align:center;margin-top:20px;color:orangered">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+}

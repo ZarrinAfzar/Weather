@@ -1,0 +1,89 @@
+﻿@using Weather.Data.Base
+@using Microsoft.AspNetCore.Identity
+
+@model IEnumerable<Correspondence>
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    ViewBag.PageTitle = "انتقادات و پیشنهادات";
+} 
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card-box taskboard-box " style="padding: 15px;">
+            <h4 class="header-title m-t-0 m-b-30 text-primary">ارسال پیام برای مدیر</h4>
+            <form asp-action="Index" method="post">
+                <div class="litelCardBox">
+                    <h5 class="font-600 m-b-5">تاریخ ارسال:</h5>
+                    <p>@DateTime.Now.ToPeString("dddd - dd MMMM - yyyy")</p>
+                    <h5 class="font-600 m-b-5">کاربر ارسال کننده :</h5>
+                    <p> @(string.IsNullOrEmpty(user.Name) ? user.UserName : $"{user.Name} {user.LastName}") </p>
+                    <h5 class="font-600 m-b-5">کاربر دریافت کننده :</h5>
+                    <p> مدیر سیستم </p>
+                    <h5 class="font-600 m-b-5">متن پیام :</h5>
+                    <textarea name="messageText" id="messageText" class="form-control" rows="15"></textarea>
+                    <input type="hidden" name="UserSenderId" id="UserSenderId" value="@user.Id" />
+                    <div class="m-t-40">
+                        <button type="submit" class="btn btn-primary waves-effect w-md waves-light m-b-5 ">ارسال پیام</button>
+                        <a asp-action="Index" asp-controller="Correspondence" class="btn btn-danger waves-effect w-md waves-light m-b-5">پاک سازی</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div><!-- end col -->
+
+
+    <div class="col-md-8">
+        <div class="card-box taskboard-box " style="padding: 10px;">
+            <h4 class="header-title m-t-0 m-b-30 text-primary  ">پیام های ارسال شده</h4>
+
+            <ul class="list-unstyled task-list litelCardBox" id="drag-upcoming">
+                @{
+                    foreach (var item in Model)
+                    {
+                        if (item.UserSenderId == user.Id)
+                        {
+                            <li>
+                                <div class="card-box downloadCardBox">
+                                    <div class="">
+                                        <span class="label label-default pull-right correspondenceStyle"><b>کاربر: </b>@item.User.Name  @item.User.LastName</span>
+                                        <span class="label label-default pull-right correspondenceStyle"><b>تاریخ ارسال :</b>@item.InsertDate.ToPeString("yyyy/MM/dd")</span>
+                                        @{
+                                            if (item.ViewState)
+                                            {
+                                                <span class="label label-success   pull-right correspondenceStyle"><b>بازدید </b>شده</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-danger    pull-right correspondenceStyle"><b>بازدید </b>نشده</span>
+                                            }
+                                        }
+
+                                        <h5 class="font-600 m-b-5">پیام ارسال شده :</h5>
+                                        <p style="word-wrap: break-word;">@item.MessageText </p>
+                                        @{
+                                            foreach (var inItem in Model)
+                                            {
+                                                if (inItem.MessageAnswerId == item.Id)
+                                                {
+                                                    <h5 class="font-600 m-b-5">پاسخ دریافت شده :</h5>
+                                                    <p style="word-wrap: break-word;">@inItem.MessageText</p>
+                                                }
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                }
+            </ul>
+
+        </div>
+    </div><!-- end col -->
+
+
+</div>
+<!-- End row -->

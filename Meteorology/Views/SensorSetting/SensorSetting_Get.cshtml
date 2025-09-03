@@ -1,0 +1,66 @@
+﻿@model Weather.Data.ViewModel.SensorSettingViewModel
+<form id="formBody_SensorSetting" role="form">
+    <div class="custom-modal-text">
+        <div class="row">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <input type="hidden" asp-for="@Model.Id" id="Id" />
+                    <label class="col-sm-3 control-label" for="SensorSetting_Name">نام استاندارد سنسور ها :</label>
+                    <div class="col-sm-6">
+                        <select id="SensorType" name="SensorType" onchange="SensorSetting_Default()" asp-for="@Model.SensorType" asp-items="@ViewBag.SensorTypes" class="form-control input-sm">
+                            <option selected>تمام موارد</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorSetting_Tel">واحد اندازه گیری :</label>
+                    <div class="col-sm-6">
+                        <select id="UnitId" name="UnitId" asp-for="@Model.UnitId" asp-items="@ViewBag.UnitList" class="form-control input-sm">
+                            <option value="0" selected>نامشخص</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorStting_Digit">تعداد ارقام اعشار :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.Digit" id="Digit" name="Digit" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorSetting_LastName">بیشترین مقدار :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.MaxValue" id="MaxValue" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorSetting_Tel">کمترین مقدار :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.MinValue" id="MinValue" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorSetting_Tel">شماره سریال سنسور :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.SensorSerial" id="SensorSerial" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorSetting_Tel">شرکت سازنده</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.SensorCompany" id="SensorCompany" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorSetting_Tel">نوع تکنیکی سنسور</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.SensorTecnicalType" id="SensorTecnicalType" class="form-control input-sm">
+                    </div>
+                </div>
+
+
+                <button type="button" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="SensorSetting_Save();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+                @*<button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();">  <i class="zmdi zmdi-close" style="font-weight: bolder;"></i> </button>*@
+            </div>
+        </div>
+    </div>
+</form>

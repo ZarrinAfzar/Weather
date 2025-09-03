@@ -1,0 +1,42 @@
+﻿@using Weather.Data.Base;
+@model PestAlarmDetail
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+
+            <th>تاریخ گذر به مرحله دوم</th>
+            <th>مقدار درجه روز</th>
+
+            <th>تاریخ گذر به مرحله سوم</th>
+            <th>مقدار درجه روز </th>
+
+            <th>تاریخ گذر به مرحله چهارم</th>
+            <th>مقدار درجه روز</th>
+
+            <th>تاریخ گذر به مرحله پنجم</th>
+            <th>مقدار درجه روز</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            <tr>
+                <td>@Model.DateLevel2.ToPeString("yyyy/MM/dd HH:mm")</td>
+                <td>@Math.Round(@Model.PDDDate2??0, 3) </td>
+
+                <td>@Model.DateLevel3.ToPeString("yyyy/MM/dd HH:mm")</td>
+                <td>@Math.Round( @Model.PDDDate3 ??0, 3) </td>
+
+                <td>@Model.DateLevel4.ToPeString("yyyy/MM/dd HH:mm")</td>
+                <td>@Math.Round(@Model.PDDDate4 ?? 0, 3) </td>
+
+                <td>@Model.DateLevel5.ToPeString("yyyy/MM/dd HH:mm")</td>
+                <td>@Math.Round(@Model.PDDDate5 ?? 0, 3) </td>
+
+            </tr>
+        }
+        
+    </tbody>
+</table>

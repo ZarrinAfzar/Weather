@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Weather.Data.ViewModel.UserAccessViewModel>
+
+<input type="text" class="form-control input-sm" placeholder="جستجو..." style="margin: 5px 12px 5px 6px;width: 95%;"id="RolesListSearch"  onkeyup="filterList()">
+<div class="custom-modal-text" style="width: 548px;height: 500px;overflow-y: auto;border-top: 2px solid #eee;" >
+    <ul class="list-group" id="RolesList">
+        @{
+            foreach (var userAccess in Model)
+            {
+                <li class="list-group-item" style="text-align: right;">
+                    <div style="float: left;">
+                        <input type="checkbox" @(userAccess.State ? "checked" : "") data-plugin="switchery" data-color="#188ae2 " data-size="small" id="State" onchange="Change_UserRole(@userAccess.UserId,this)"  Roletext="@userAccess.Description" name="@userAccess.Value" />
+                        @*<input type="hidden" value="@userAccess.Value" name="Value" id="Value" />*@
+                    </div>
+                    <b>
+                        @userAccess.Description
+                    </b>
+                </li>
+            }
+        }
+    </ul>
+</div>
+<script>
+        $(document).ready(function () {
+            $('[data-plugin="switchery"]').each(function (idx, obj) {
+                new Switchery($(this)[0], $(this).data());
+            });
+        });
+function filterList() {
+   
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("RolesListSearch");
+    if(input.value)
+        {
+            filter = input.value;//.toUpperCase();
+            ul = document.getElementById("RolesList");
+            li = ul.getElementsByTagName("li");
+            $( li ).each(function() {
+                 textValue = this.innerText;
+                 if(textValue.indexOf(filter) !== -1)
+                    {
+                        this.style.display = "";
+                    }else{
+                         this.style.display = "none";
+                    }
+            });
+        }else{
+            $("#RolesList li").show();
+        }
+    }
+
+    function Change_UserRole(id,e) {
+    $.ajax({
+        url: "/User/Change_UserRole/",
+        type: "post",
+        cache: false,
+        dataType: "json",
+        data: { Userid: id, Rolename: $(e).prop('name'), State: $(e).prop('checked') },
+        success: function (result) {
+            if (result) {
+                if ($(e).prop('checked') === true) {
+                    messageBox("success", " دسترسی" +" " + $(e).attr("Roletext") +" " + " به کاربر داده شد");
+                } else {
+                    messageBox("success", " دسترسی" +" " + $(e).attr("Roletext") +" " +"از کاربر گرفته شد");
+                }
+            } else {
+                messageBox("error", "خطا در سیستم");
+            }
+        }
+    });  
+}
+</script>

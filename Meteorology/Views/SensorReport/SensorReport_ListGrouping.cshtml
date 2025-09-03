@@ -1,0 +1,28 @@
+﻿@using Weather.Data.Base;
+@model List<Weather.Data.ViewModel.SensorDataViewModel>
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>تاریخ وساعت</th>
+            <th id="Avg">میانگین</th>
+            <th id="Sum">مجموع</th>
+            <th id="Min">کمترین</th>
+            <th id="Max">بیشترین</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Date.ToPeString()</td>
+                    <td class="Avg">@item.Avg</td>
+                    <td class="Sum">@item.Sum</td>
+                    <td class="Min">@item.Min</td>
+                    <td class="Max">@item.Max</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

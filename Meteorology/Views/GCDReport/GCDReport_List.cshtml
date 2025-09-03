@@ -1,0 +1,76 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable
+
+@{
+
+    if (Model.Rows.Count == 0)
+    {
+        <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+    else
+    {
+
+
+        <table id="datatable-buttons" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    @{
+
+                        <th>تاریخ</th>
+                        <th>مقدار کسب شده(برحسب ساعت)</th>
+                        <th>مجموع مقدار کسب شده</th>
+                        @*<th>درجه سرمایش روز</th>
+
+
+                    }
+                </tr>
+                <tr>
+                    @{
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>@ViewBag.Maxمقدار زیر </th>
+                        <th>@ViewBag.Minمقدار زیر</th>*@
+
+
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DataRow dr in Model.Rows)
+                    {
+
+                        <tr>
+                            @{
+                                foreach (DataColumn dc in Model.Columns)
+                                {
+                                    if (dc.Caption == "DateTime")
+                                    {
+                                        <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd")</td>
+
+
+                                    }
+
+                                    else
+                                    {
+
+                                        <td> @dr[dc].ToString() </td>
+
+                                    }
+                                }
+
+
+                            }
+
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}

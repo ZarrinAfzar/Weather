@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.PageTitle = "گزارش سنسورها";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive m-b-10">
+            <div class="project-sort pull-left">
+                <div class="project-sort-item">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>انتخاب پروژه :</label>
+                            <select id="SensorReport_Project" asp-items="@ViewBag.ProjectList" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>--- پروژه ---</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب ایستگاه :</label>
+                            <select id="SensorReport_Station" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>--- ایستگاه ---</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="FromDate" name="FromDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت شروع گزارش">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="ToDate" name="ToDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت پایان گزارش">
+                        </div>
+                        <div>
+                            <p>انتخاب نوع گزارش</p>
+                            <div class="radio radio-success" style="margin-right: 20px;">
+                                <input type="radio" name="All_Day_Month" id="AllData" value="AllData" onclick="reportState()">
+                                <label for="AllData"> همه داده ها </label>
+                            </div>
+                            <div class="radio radio-success m-r-10">
+                                <input type="radio" name="All_Day_Month" id="InDay" value="DAY" onclick="reportState()">
+                                <label for="InDay"> داده های روزانه </label>
+                            </div>
+                            <div class="radio radio-success">
+                                <input type="radio" name="All_Day_Month" id="InMonth" value="MONTH" onclick="reportState()">
+                                <label for="InMonth"> داده های ماهانه </label>
+                            </div>
+
+                        </div>
+                        <div class="m-b-10">
+                            <p>انتخاب  نوع محاسبه داده های روزانه و ماهانه</p>
+                            <div class="checkbox checkbox-success checkbox-inline">
+                                <input type="checkbox" name="computingType" id="Avg" value="Avg" class="chb_ReportType">
+                                <label for="Avg"> میانگین </label>
+                            </div>
+                            <div class="checkbox checkbox-success checkbox-inline">
+                                <input type="checkbox" name="computingType" id="Min" value="Min" class="chb_ReportType">
+                                <label for="Min"> حداقل </label>
+                            </div>
+                            <div class="checkbox checkbox-success checkbox-inline">
+                                <input type="checkbox" name="computingType" id="Max" value="Max" class="chb_ReportType">
+                                <label for="Max"> حداکثر </label>
+                            </div>
+                            <div class="checkbox checkbox-success checkbox-inline">
+                                <input type="checkbox" name="computingType" id="Sum" value="Sum" class="chb_ReportType">
+                                <label for="Sum"> مجموع </label>
+                            </div>
+                        </div>
+                        <div class="row m-b-10">
+                            <select id="Sensor_Selecter" class="select2-search form-control input-sm" style="min-width: 180px;margin: 3px 0 10px 10px;" multiple>
+                            </select>
+
+
+                        </div>
+                        <button onclick="SensorReport_filter()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5">گزارش سنسور</button>
+                        <button onclick="ExportToExcel()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5 export">خروجی excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <div class="row" id="SensorReport_List" style="max-height: 80vh; overflow-y: auto;">
+            </div>
+
+        </div>
+
+    </div><!-- end col -->
+</div>
+
+
+@section Scripts
+{
+    <script src="~/MyScript/SensorReport/SensorReport.js"></script>
+}

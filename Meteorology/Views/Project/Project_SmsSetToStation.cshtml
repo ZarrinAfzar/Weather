@@ -1,0 +1,28 @@
+﻿ @model Weather.Data.ViewModel.SmsSetToStationVm
+<div class="modal-body">
+    <h5><b style="float: right;margin-bottom: 5px;">ایستگاه :</b></h5>
+    <select class="form-control input-sm">
+        @{
+            foreach (var item in Model.Stations)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        }
+    </select>
+
+    <h5><b style="float: right;margin-bottom: 5px;">تعداد پیامک :</b></h5>
+    <input type="text" class="form-control input-sm" maxlength="25" name="alloptions" id="alloptions">
+
+    <div class="m-t-20">
+        <h5>
+            <b style="float: right;margin-left: 10px;">تعداد پیامک های باقی مانده :</b>
+            <b class="text-purple m-b-0" style="float: right;">
+                @Model.HasSms
+            </b>
+        </h5>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-icon waves-effect waves-light btn-success m-b-5"> <i class="zmdi zmdi-plus" style="font-weight: bolder;"></i> </button>
+    <button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();">  <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </button>
+</div>

@@ -1,0 +1,114 @@
+﻿@using Weather.Data.Base;
+@model List<SendSMS>
+@{
+    ViewBag.PageTitle = "ارسال پیامک";
+}
+
+<div class="row headerbox">
+
+    <div class="col-sm-12">
+
+        <div class="project-sort pull-right">
+            <div class="project-sort-item">
+                <div class="form-inline">
+                   @* <div class="form-group" style="width: 150px;margin: 0 0 0 0;">
+                        @{
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("ManagerTel"))
+                            {
+                                <button onclick="ManagerTel_List()" class="btn btn-primary waves-effect w-md waves-light m-b-5">دفترچه تلفن مدیران</button>
+                            }
+                        }
+                    </div>*@
+                    <div class="form-group" style="border: 1px solid #dedede;padding: 4px;border-radius: 27px;width: 300px;margin: 3px 0 0 10px;">
+                        <input type="text" class="col-md-11" style="border: none;" id="OperatorNameSearch_value" name="OperatorNameSearch_value" value="" placeholder=" جستجو براساس نام ایستگاه...">
+                        <i class="zmdi zmdi-search" style="font-size: 17px;font-size: 20px;margin-top: 1px;float: right;cursor: pointer;color: #f80;" onclick="UserName_Search()"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>چینش بر اساس :</label>
+                        <select id="SMSPanelSort" class="form-control input-sm" style="width: 300px;margin: 3px 0 0 10px;">
+                            <option value="0">---------------</option>
+                            <option value="1">اولین به آخرین</option>
+                            <option value="2">آخرین به اولین</option>
+                            <option value="3">تاریخ صعودی</option>
+                            <option value="4">تاریخ نزولی</option>
+                            <option value="5">نام مخاطب صعودی</option>
+                            <option value="6">نام مخاطب نزولی</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="border: 1px solid #dedede;padding: 4px;border-radius: 27px;width: 300px;margin: 3px 0 0 10px;">
+                        <input type="text" class="col-md-11" style="border: none;" id="MessageSearch_value" name="MessageSearch_value" value="" placeholder="جستجو متن پیام...">
+                        <i class="zmdi zmdi-search" style="font-size: 17px;font-size: 20px;margin-top: 1px;float: right;cursor: pointer;color: #f80;" onclick="Message_Search()"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("SMSPanel"))
+        {
+            <div class="col-md-4">
+                <form class="card-box project-box projectCardBox ">
+                    <input type="hidden" />
+                    <div class="litelCardBox">
+
+                        <select asp-items="@ViewBag.TelList" id="UserGeter" class="select2 select2-multiple" style="width: 95%;font-family: 'iran', sans-serif;" multiple="multiple" data-placeholder=" مخاطب یا مخاطبین دریافت کننده ...">
+                            <option value="0">تمام مخاطبین</option>
+                        </select>
+                        <div class="m-t-20">
+                            <h5><b style="float: right; margin-bottom: 5px;">متن پیام :</b></h5>
+                            <textarea id="MessageText" class="form-control" rows="20"></textarea>
+                        </div>
+                    </div>
+                    <div class="m-t-5">
+                        <button type="button" onclick="Send()" class="btn btn-primary waves-effect w-md waves-light m-b-5 ">ارسال پیام</button>
+                        <a asp-action="Index" asp-controller="SMSPanel" asp-route-id="" class="btn btn-danger waves-effect w-md waves-light m-b-5">پاک سازی</a>
+                    </div>
+                </form>
+            </div>
+        }
+    }
+    <div class="col-md-8">
+        <div class="card-box project-box projectCardBox litelCardBox" style="height:655px;max-height:655px;" id="SMSPanelList">
+            <table class="table table-condensed m-0 ">
+                <thead>
+                    <tr>
+                        <th>دریافت کننده</th>
+                        <th>شماره تلفن</th>
+                        <th>وضعیت</th>
+                        <th>تاریخ ارسال</th>
+                        <th>متن پیامک</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    @item.To
+                                </td>
+                                <td>@item.Status</td>
+                                <td>@item.DatePrs</td>
+                                <td>
+                                    @item.Message
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+<script src="~/MyScript/SMSPanel/SMSPanel.js"></script>
+
+}

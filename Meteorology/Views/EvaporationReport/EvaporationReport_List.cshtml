@@ -1,0 +1,52 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable
+
+@{
+
+    if (Model.Rows.Count == 0)
+    {
+        <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+    else
+    {
+
+
+        <table id="datatable-buttons" class="table table-striped table-bordered" >
+            <thead>
+                <tr>
+                    @{
+
+                        <th>تاریخ</th>
+                        <th>میزان سطح آب روز گذشته(cm)</th>
+                        <th>میزان سطح آب روز جاری(cm)</th>
+                        <th>میزان تبخیر روزانه(cm)</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DataRow dr in Model.Rows)
+                    {
+                        <tr>
+                            @{
+                                foreach (DataColumn dc in Model.Columns)
+                                {
+                                    if (dc.Caption == "Datetime")
+                                    {
+                                        <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd")</td>
+                                    }
+                                    else
+                                    {
+                                        <td dir="ltr"> @dr[dc].ToString() </td>
+                                    }
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}

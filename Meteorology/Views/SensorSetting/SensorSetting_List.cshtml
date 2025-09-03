@@ -1,0 +1,50 @@
+﻿@using  Weather.Data.Base;
+@model IEnumerable<SensorSetting>
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>سطر</th>
+            <th>نام</th>
+            <th>نام استاندارد سنسور</th>
+            <th>واحد</th>
+            <th>رقم اعشار</th>
+            <th>کمترین</th>
+            <th>بیشترین</th>
+            <th>شماره سریال سنسور</th>
+            <th>شرکت سازنده</th>
+            <th>نوع تکنیکی سنسور</th>
+            <th>تاریخ</th>
+            <th>#</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr id="SensorSettingRow_@item.Id" style="@(item.SensorType == 1 ? "background-color: #F80 !important;color:#fff" : "background-color: #ededed;color:#000")">
+                    <td>@item.SensorRow</td>
+                    <td>@item.SensorName</td>
+                    <td>@item.SensorTypes.FaName (@item.SensorTypes.EnName)</td>
+                    <td>@($"{item.Unit.FaName}({item.Unit.EnName})")</td>
+                    <td @(item.SensorDigit > item.SensorMax || item.SensorDigit < item.SensorMin ? "class=text-danger" : "")>@item.SensorDigit</td>
+                    <td>@item.SensorMin</td>
+                    <td>@item.SensorMax</td>
+                    <td>@item.SensorSerial</td>
+                    <td>@item.SensorCompany</td>
+                    <td>@item.SensorTecnicalType</td>
+                    <td>@item.SensorDateTime.ToPeString("yyyy/MM/dd")</td>
+                    <td>
+                        @{
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("EditSensorSetting"))
+                            {
+                                <button onclick="SensorSetting_Get(@item.Id)" class="icon circle-icon red zmdi zmdi-edit text-info" style="border: 2px solid #35b8e0;background-color: #FFF !important;"></button>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

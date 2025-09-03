@@ -1,0 +1,60 @@
+﻿@model User
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+
+} 
+<form id="formBody_User" role="form">
+    <input type="hidden" asp-for="Id" id="Id" name="Id" />
+    <input type="hidden" asp-for="UserInsertedId" id="UserInsertedId" name="UserInsertedId" value="@user.Id" />
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><b style="float: right; margin-bottom: 5px;">نام :</b></h5>
+                    <input asp-for="Name" type="text" class="form-control input-sm" id="Name" name="Name">
+                    <h5><b style="float: right; margin-bottom: 5px;">نام کاربری :</b></h5>
+                    <input asp-for="UserName" type="text" class="form-control input-sm" id="UserName" name="UserName">
+                    <h5><b style="float: right; margin-bottom: 5px;">پست الکترونیکی :</b></h5>
+                    <input asp-for="Email" type="text" class="form-control input-sm" id="Email" name="Email">
+                    <h5><b style="float: right; margin-bottom: 5px;">استان :</b></h5>
+                    <select asp-for="City.StateId" asp-items="@ViewBag.StatectList" class="form-control input-sm" id="Statedrp"></select>
+                </div>
+                <div class="col-md-6">
+                    <h5><b style="float: right; margin-bottom: 5px;">نام خانوادگی :</b></h5>
+                    <input asp-for="LastName" type="text" class="form-control input-sm" id="LastName" name="LastName">
+                    <h5><b style="float: right; margin-bottom: 5px;">رمز عبور :</b></h5>
+                    <input asp-for="PasswordHash"  class="form-control input-sm" id="PasswordHash" name="PasswordHash" type="password" placeholder="********">
+                    <h5><b style="float: right; margin-bottom: 5px;">موبایل :</b></h5>
+                    <input asp-for="PhoneNumber" type="text" class="form-control input-sm" id="PhoneNumber" name="PhoneNumber">
+                    <h5><b style="float: right; margin-bottom: 5px;">شهر :</b></h5>
+                    <select asp-for="CityId" asp-items="@ViewBag.CityList" class="form-control input-sm" id="CityId" name="CityId"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="Save_User();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+      @*  <button type="button" class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();"> <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </button>*@
+    </div>
+</form>
+<script>
+    $("#Statedrp").change(function() {
+        $.ajax({
+            type: "Get",
+            url: "/User/City/",
+            data: { stateId: $("#Statedrp").val() },
+            contentType: "application/json",
+            dataType: "json",
+            success: function(city) {
+                $("#CityId").empty();
+                $.each(city,
+                    function() {
+                        $("#CityId").append($("<option></option>").val(this['id']).html(this['name']));
+                    });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,76 @@
+﻿@using Weather.Data.Base
+@{
+    ViewBag.PageTitle = $"صفحه اصلی ({DateTime.Now.ToPeString("dddd, dd MMMM,yyyy")})";
+}
+@model List<Weather.Data.ViewModel.MapViewModel>
+
+<style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+        height: 85vh;
+    }
+</style>
+
+<div id="map"></div>
+
+@section Scripts{
+    <script src="https://www.openlayers.org/api/OpenLayers.js"></script>
+    <script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+    <script>
+         var locations =  @Html.Raw(Json.Serialize(Model));
+
+        var map = new ol.Map({
+  target: 'map',
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM()
+    })
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([54.0,32.0]),
+    zoom: 5
+  })
+        });
+
+        var FeatureCircle = [];
+        var lat = 54.0;
+        var long = 32.0;
+        for (i = 0; i < locations.length; i++) {
+
+         if (locations[i].latitude != null && locations[i].longitude != null) {
+             lat = parseFloat(locations[i].latitude);
+             long = parseFloat(locations[i].longitude);
+             //alert(locations[i].latitude + "," + locations[i].longitude);
+             //var centerLongitudeLatitude = ol.proj.transform([long,lat], 'EPSG:4326', 'EPSG:3857');
+             FeatureCircle.push(new ol.Feature(new ol.geom.Circle([lat,long], 40000)));
+
+           }
+        }
+
+        var vectorSource = new ol.source.Vector({
+            projection: 'EPSG:4326',
+            features: FeatureCircle //add an array of features
+        });
+
+        var iconStyle = new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: 'blue',
+                width: 3
+            }),
+            fill: new ol.style.Fill({
+                color: 'rgba(0, 0, 255, 0.1)'
+            })
+        });
+
+        var vectorLayer = new ol.layer.Vector({
+            source: vectorSource,
+            style: iconStyle
+        });
+
+        map.addLayer(vectorLayer);
+    </script>
+}
+
+
+

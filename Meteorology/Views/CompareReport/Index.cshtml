@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.PageTitle = "گزارش مقایسه ای داده های الکترونیکی و مکانیکی ";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive m-b-10">
+            <div class="project-sort pull-left">
+                <div class="project-sort-item">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>انتخاب پروژه :</label>
+                            <select id="CompareReport_Project" asp-items="@ViewBag.ProjectList" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>--- پروژه ---</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب ایستگاه :</label>
+                            <select id="CompareReport_Station" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>--- ایستگاه ---</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="FromDate" name="FromDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت شروع گزارش">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="ToDate" name="ToDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت پایان گزارش">
+                        </div>
+                        <div class="form-group">
+                            <label for="file" class="custom-file-upload">
+                                <i class="fa fa-cloud-upload"></i> انتخاب فایل مکانیکال برای آپلود
+                            </label>
+                            <input id="file" name="file" type="file" style="display: none;" />
+                        </div>
+                       
+                        <div class="form-group  m-l-10 ">
+                            <button onclick="CompareReport()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5"> آپلود داده ها و پردازش  </button>
+                        
+                            <button onclick="exportData()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5 export">خروجی excel</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box  table-responsive">
+            <div class="row col-sm-5" id="CompareReport_List">
+
+            </div>
+
+        </div>
+       
+    </div><!-- end col -->
+</div>
+
+
+@section Scripts
+    {
+    <script src="~/MyScript/CompareReport/CompareReport.js"></script>
+}

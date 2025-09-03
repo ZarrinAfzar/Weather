@@ -1,0 +1,35 @@
+﻿@using Weather.Data.Base;
+@model List<Notification>
+
+    <table class="table table-condensed m-0 ">
+
+        <thead>
+            <tr>
+                <th>کاربر دریافت کننده</th>
+                <th>وضعیت</th>
+                <th>تاریخ ارسال</th>
+                <th>کاربر ارسال کننده</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.UserRecive.Name  @item.UserRecive.LastName
+                        </td>
+                        <td>@(item.ViewState ? "بازدید شده" : "بازدید نشده")</td>
+                        <td>@item.InsertDate.ToPeString()</td>
+                        <td>@item.UserSend.Name  @item.UserSend.LastName </td>
+
+                        <td>
+                            <button onclick="NotificationMessage(@item.Id)" class="btn btn-icon waves-effect waves-light btn-primary" style="float: left;margin:3px;"> متن پیام </button>
+                            <button onclick="Delete(@item.Id)" class="btn btn-icon waves-effect waves-light btn-primary" style="float: left;margin:3px;"> حذف پیام </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PestAlarmDetail>
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>پروژه</th>
+            <th>ایستگاه</th>
+            <th>نام آلارم</th>
+            <th>دمای پایه</th>
+            <th>دمای حداکثر</th>
+            <th>تعداد مراحل</th>
+            <th>نام مرحله اول</th>
+            <th>مقدار گذر به مرحله 2</th>
+            <th>نام مرحله دوم</th>
+            <th>مقدار گذر به مرحله 3</th>
+            <th>نام مرحله سوم</th>
+            <th>مقدار گذر به مرحله 4</th>
+            <th>نام مرحله چهارم</th>
+            <th>مقدار گذر به مرحله 5</th>
+            <th>نام مرحله پنجم</th>
+            <th>#</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+                <tr id="PestAlarmDetailRow_@item.Id" class="@item.Alarm.AlarmColor">
+                    <td>@item.Alarm.Station.Project.Name </td>
+                    <td>@item.Alarm.Station.Name</td>
+                    <td>@item.Alarm.AlarmName</td>
+                    <td>@item.TempBase</td>
+                    <td>@item.TempMax</td>
+                    <td>@item.CountLevel</td>
+                    <td>@item.LevelName1</td>
+                    <td>@item.PDDLevel2</td>
+                    <td>@item.LevelName2</td>
+                    <td>@item.PDDLevel3</td>
+                    <td>@item.LevelName3</td>
+                    <td>@item.PDDLevel4</td>
+                    <td>@item.LevelName4</td>
+                    <td>@item.PDDLevel5</td>
+                    <td>@item.LevelName5</td>
+                    <td>
+                        @{
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("EditPestAlarmDetail"))
+                            {
+                                <button onclick="PestAlarmDetail_Get(@item.Id)" class="icon circle-icon blue zmdi zmdi-edit m-r-10" style="border: 2px solid #188ae2;color: #188ae2;background-color: #fff;"></button>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

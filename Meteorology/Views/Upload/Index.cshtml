@@ -1,0 +1,107 @@
+﻿@using Weather.Data.Base
+@model Weather.Data.ViewModel.UploadVm
+@{
+    ViewBag.PageTitle = "آپلودها";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index" method="post" enctype="multipart/form-data" class="card-box project-box projectCardBox ">
+            <input type="hidden" asp-for="Files.Id" value="@Model.Files.Id" />
+            <div class="litelCardBox">
+                <h5><b style="float: right; margin-bottom: 5px;">عنوان :</b></h5>
+                <input asp-for="Files.Title" type="text" class="form-control input-sm">
+                <h5><b style="float: right; margin-bottom: 5px;">دسته :</b></h5>
+                <select asp-for="Files.Type" class="form-control input-sm">
+                    <option value="1">نرم افزار ها</option>
+                    <option value="2">کاتالوگ ها</option>
+                    <option value="3">مقالات و اموزش ها</option>
+                </select>
+                <div class="m-t-20">
+                    <h5><b style="float: right; margin-bottom: 5px;">توضیحات :</b></h5>
+                    <textarea id="textarea" asp-for="Files.Desctription" class="form-control" rows="15" placeholder="متنی با 255 کارکتر"></textarea>
+                </div>
+                <label for="file-upload" class="custom-file-upload m-t-20" style="margin-right:0px !important;">
+                    <i class="fa fa-cloud-upload"></i> انتخاب فایل برای آپلود
+                </label>
+                <input id="file-upload" type="file" name="form" style="display: none;" />
+            </div>
+            <div class="m-t-5">
+                <button type="submit" class="btn btn-primary waves-effect w-md waves-light m-b-5 ">ارسال فایل</button>
+                <a asp-action="Index" asp-controller="Upload" asp-route-id="" class="btn btn-danger waves-effect w-md waves-light m-b-5">پاک سازی</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <div class="card-box project-box projectCardBox litelCardBox" style="height:655px;max-height:655px;">
+            <table class="table table-condensed m-0 ">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>عنوان</th>
+                        <th>دسته</th>
+                        <th>تاریخ ثبت</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model.FilesList)
+                        {
+                            <tr>
+                                <th scope="row">@item.Id</th>
+                                <td>@item.Title</td>
+                                <td>@item.Type.GetDisplayName()</td>
+                                <td>@item.InsertDate.ToPeString("dddd - dd MMMM - yyyy")</td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="return deleteFile(this)" class="btn btn-icon waves-effect waves-light btn-danger" style="float: left;margin:3px;"> <i class="zmdi zmdi-delete"></i> </a>
+                                    <a asp-action="Index" asp-route-id="@item.Id" class="btn btn-icon waves-effect waves-light btn-primary" style="float: left;margin:3px;"> <i class="zmdi zmdi-edit"></i> </a>
+                                    <a href="~/UploadFiles/@item.File" class="btn btn-icon waves-effect waves-light btn-primary" style="float: left;margin:3px;"> <i class="zmdi zmdi-download"></i> </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+
+@section Scripts
+    {
+    <!-- Datatables-->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/jszip.min.js"></script>
+    <script src="~/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/pages/datatables.init.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            TableManageButtons.init();
+        });
+        function deleteFile(e){
+            event.preventDefault();
+            swal({ title: "حذف فایل", text: "فایل مورد نظر حذف شود؟", type: "error", showCancelButton: true, confirmButtonClass: 'btn-danger waves-effect waves-light', confirmButtonText: "حذف" }, function (result) {
+                if (result) {
+                    window.location = $(e).attr('href');
+                } else { messageBox("info", "حذف فایل لغو شد"); return false; }
+            });
+        }
+    </script>
+
+}

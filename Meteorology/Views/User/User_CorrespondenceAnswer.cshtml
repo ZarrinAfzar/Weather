@@ -1,0 +1,78 @@
+﻿@using Weather.Data.Base
+@model List<Correspondence>
+    <div class="modal-body">
+        <div class="row" id="formBody_CorrespondenceAnswerForm"> 
+
+        </div>
+        <div class="row telListBox">    
+            <div class="col-md-12">
+                <ul class="list-group">
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <li class="list-group-item">
+                                <button onclick="Answer(@item.Id)" class="badge badge-primary telButton"><i class="zmdi zmdi-comment-text-alt"></i></button> 
+                                <button onclick="DeleteAnswer(@item.Id)" class="badge badge-primary telButton"><i class="zmdi zmdi-delete"></i></button> 
+                                <div>
+                                    <span class="label label-default" style="width: 125px;float: right;margin:2px;" ><b>تاریخ ارسال :</b>@item.InsertDate.ToPeString("dddd-dd MMMM-yyyy")</span>
+                                    <p style="margin-bottom: 0px;text-align: right;clear: right;">
+                                        @item.MessageText
+                                    </p>
+                                </div>
+                            </li> 
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function Answer(id) {
+        $.ajax({
+            url: "/User/GetMessageForAnswer/",
+            type: "Get",
+            cache: false,
+            dataType: "Html",
+            data: { id: id },
+            success: function (result) {
+                if (result) {
+                    $("#formBody_CorrespondenceAnswerForm").html(result);
+                } else {
+                    messageBox("error", "خطا در سیستم");
+                }
+            }
+        });
+    }
+
+    function DeleteAnswer(id) {
+        swal({
+            title: "حذف پیام",
+            text: "پیام مورد نظر حذف شود؟",
+            type: "error",
+            showCancelButton: true,
+            confirmButtonClass: 'btn-danger waves-effect waves-light',
+            confirmButtonText: "حذف"
+        }, function (result) {
+            if (result) {
+                $.ajax({
+                    url: "/User/DeleteMessageForAnswer/",
+                    type: "Get",
+                    cache: false,
+                    dataType: "Html",
+                    data: { id: id },
+                    success: function (result) {
+                        if (result) {
+                            $("#myModal").modal('hide');
+                            messageBox("success", "پیام مورد نظر حذف شد");
+                        } else {
+                            messageBox("error", "خطا در سیستم");
+                        }
+                    }
+                });
+            } else {
+                messageBox("info", "حذف پیام لغو شد");
+            }
+        });
+    }
+</script>

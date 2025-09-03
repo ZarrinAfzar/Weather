@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.PageTitle = "گزارش خیسی برگ";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive m-b-10">
+            <div class="project-sort pull-left">
+                <div class="project-sort-item">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>انتخاب پروژه :</label>
+                            <select id="LeafWetnessReport_Project" asp-items="@ViewBag.ProjectList" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>--- پروژه ---</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب ایستگاه :</label>
+                            <select id="LeafWetnessReport_Station" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                                <option selected>--- ایستگاه ---</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="FromDate" name="FromDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت شروع گزارش">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="ToDate" name="ToDate" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت پایان گزارش">
+                        </div>
+                        <div class="form-group">
+
+                            مقدار حداکثر برای خیسی برگ (بین 1 تا 16) :
+                            <input type="text" id="Max" name="Max" class="form-control input-sm">
+                        </div>
+                        <div class="form-group  m-l-10 ">
+                            <button onclick="LeafWetnessReport_filter()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5">گزارش </button>
+                            <button onclick="ExportToExcel()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5 export">خروجی excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end col-->
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box  table-responsive">
+                <div class="row col-sm-6" id="LeafWetnessReport_List">
+
+                </div>
+
+            </div>
+
+        </div><!-- end col -->
+    </div>
+
+
+    @section Scripts
+        {
+        <script src="~/MyScript/LeafWetnessReport/LeafWetnessReport.js"></script>
+    }

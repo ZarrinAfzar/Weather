@@ -1,0 +1,73 @@
+﻿@model SensorAlarmDetail
+<form id="formBody_SensorAlarmDetail" role="form">
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Id" id="Id" name="Id" />
+                                      <input type="hidden" asp-for="AlarmId" value="@ViewBag.AlarmId" id="AlarmId" name="AlarmId" />
+
+
+                    <label class="col-sm-3 control-label">انتخاب سنسور :</label>
+                    <div class="col-sm-6">
+                        <select id="SensorTypeId" name="SensorTypeId" asp-for="SensorTypeId" asp-items="@ViewBag.SensorList" class="form-control input-sm">
+                            <option value="0" selected>تمام موارد</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="MinMaxValue">انتخاب :</label>
+                    <div class="col-sm-6">
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="MinimumOrMaximum2" value="false" asp-for="MinimumOrMaximum" name="MinimumOrMaximum">
+                            <label for="MinimumOrMaximum2"> حداکثر </label>
+                        </div>
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="MinimumOrMaximum1" value="true" asp-for="MinimumOrMaximum" name="MinimumOrMaximum">
+                            <label for="MinimumOrMaximum1"> حداقل </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="MinMaxValue">مقدار :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="MinMaxValue" id="MinMaxValue" name="MinMaxValue" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="OnlineOrTimeDuration">انتخاب :</label>
+                    <div class="col-sm-6">
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="OnlineOrTimeDuration1" onclick="funcOnlineOrTimeDuration(true)" value="true" asp-for="OnlineOrTimeDuration" name="OnlineOrTimeDuration">
+                            <label for="OnlineOrTimeDuration1"> فوری </label>
+                        </div>
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="OnlineOrTimeDuration2" onclick="funcOnlineOrTimeDuration(false)" value="false" asp-for="OnlineOrTimeDuration" name="OnlineOrTimeDuration">
+                            <label for="OnlineOrTimeDuration2"> مدت دار </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group" id="TimeDurationBox">
+                    <label class="col-sm-3 control-label" for="TimeDuration">مقدار(برحسب ساعت) :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="TimeDuration" id="TimeDuration" name="TimeDuration" class="form-control input-sm">
+
+                    </div>
+                </div>
+                <div class="form-group" id="ThresholdBox">
+                    <label class="col-sm-3 control-label" for="Threshold">آستانه بررسی مجدد :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="Threshold" id="Threshold" name="Threshold" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="SensorAlarmDetail_Save();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+                    @* <button type="button" class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();">  <i class="zmdi zmdi-close" style="font-weight: bolder;"></i> </button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,67 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable;
+@{
+    if (Model.Rows.Count == 0)
+    {
+        <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+    else
+    {
+        <table id="datatable-buttons" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+
+                    <th> تاریخ</th>
+                    <th> رطوبت الکتریکال 6:30</th>
+                    <th> رطوبت الکتریکال 12:30</th>
+                    <th> رطوبت الکتریکال 18:30</th>
+                    <th> دما الکتریکال 6:30</th>
+                    <th> دما الکتریکال 12:30</th>
+                    <th> دما الکتریکال 18:30</th>
+                    <th> باران الکتریکال</th>
+                    <th> رطوبت مکانیکال 6:30</th>
+                    <th> رطوبت مکانیکال 12:30</th>
+                    <th> رطوبت مکانیکال 18:30</th>
+                    <th> دما مکانیکال 6:30</th>
+                    <th> دما مکانیکال 12:30</th>
+                    <th> دما مکانیکال 18:30</th>
+                    <th> باران مکانیکال</th>
+                    <th> خطا رطوبت  6:30</th>
+                    <th> خطا رطوبت  12:30</th>
+                    <th> خطا رطوبت  18:30</th>
+                    <th> خطا دما  6:30</th>
+                    <th> خطا دما  12:30</th>
+                    <th> خطا دما  18:30</th>
+                    <th> خطا باران </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DataRow dr in Model.Rows)
+                    {
+                        <tr>
+                            @{
+                                foreach (DataColumn dc in Model.Columns)
+                                {
+                                    if (dc.Caption == "Datetime")
+                                    {
+                                        <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd")</td>
+                                    }
+                                    else
+                                    {
+                                        <td> @dr[dc].ToString() </td>
+                                    }
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
+

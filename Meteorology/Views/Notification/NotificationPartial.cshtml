@@ -1,0 +1,15 @@
+﻿@using Weather.Data.Base;
+@model List<Notification>
+<ul class="list-group list-no-border user-list">
+    @{
+        foreach (var item in Model)
+        {
+            <li class="list-group-item">
+                <a asp-action="Index" asp-controller="Notification" class="user-list-item">
+                    <b>تاریخ ارسال:@item.InsertDate.ToPeString()</b>
+                    <p>@item.Message</p>
+                </a>
+            </li>
+        }
+    }
+</ul>

@@ -1,0 +1,74 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable
+
+@{
+
+    if (Model.Rows.Count == 0)
+    {
+        <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+    else
+    {
+
+
+        <table id="datatable-buttons" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    @{
+
+                        <th> پروژه</th>
+                        <th> ایستگاه</th>
+                        <th>شماره سیم کارت ایستگاه</th>
+                        <th>آخرین تاریخ ارسال داده</th>
+                        <th>باران 24 ساعت گذشته</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DataRow dr in Model.Rows)
+                    {
+                        TimeSpan Difference;
+
+                        <tr>
+                            @{
+                                foreach (DataColumn dc in Model.Columns)
+                                {
+                                    if (dc.Caption == "lastDate")
+                                    {
+
+                                        Difference = DateTime.Now - (@Convert.ToDateTime(dr[dc]));
+
+                                        if (Difference.Days >= 3)
+                                        {
+                                            <td style="color:red; direction:ltr ; text-align:right">
+                                                @(Convert.ToDateTime(dr[dc]) < Convert.ToDateTime("2010-12-29 00:30:00.000") ? "تاریخ نامعتبر است" : Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd HH:mm"))
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="direction:ltr; text-align:right">
+                                                @(Convert.ToDateTime(dr[dc]) < Convert.ToDateTime("2010-12-29 00:30:00.000") ? "تاریخ نامعتبر است" : Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd HH:mm"))
+                                            </td>
+
+                                        }
+                                    }
+
+
+                                    else
+                                    {
+                                        <td> @dr[dc].ToString() </td>
+                                    }
+
+                                }
+                            }
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}

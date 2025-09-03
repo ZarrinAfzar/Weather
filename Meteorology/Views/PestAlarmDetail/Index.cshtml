@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.PageTitle = "جزئیات آلارم آفات";
+}
+
+<div class="row headerbox">
+    <div class="col-md-12">
+        <div class="project-sort pull-left">
+            <div class="project-sort-item">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>انتخاب پروژه :</label>
+                        <select id="PestAlarmDetail_Project" asp-items="@ViewBag.ProjectList" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                            <option selected>تمام موارد</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>انتخاب ایستگاه :</label>
+                        <select id="PestAlarmDetail_Station" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                            <option selected>تمام موارد</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <h4 class="header-title m-t-0 m-b-30" id="PestAlarmDetail_ListTitle">لیست آلارم آفات</h4>
+
+            <div class="row" id="PestAlarmDetail_List">
+
+            </div>
+        </div>
+    </div><!-- end col -->
+</div>
+
+
+@section Scripts
+    {
+    <!-- Datatables-->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/jszip.min.js"></script>
+    <script src="~/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/pages/datatables.init.js"></script>
+    <script src="~/MyScript/PestAlarmDetail/PestAlarmDetail.js"></script>
+
+}

@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.PageTitle = "نمودار گلباد";
+}
+<div class="row headerbox">
+    <div class="col-sm-12">
+        <div class="project-sort pull-left p-b-10">
+            <div class="project-sort-item">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label style="margin-right:33px">پروژه :</label>
+                        <select class="form-control input-sm" id="WindChart_Project" asp-items="@ViewBag.ProjectList" style="width:200px;margin: 3px 0 0 10px;">
+                            <option>انتخاب پروژه</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ایستگاه :</label>
+                        <select class="form-control input-sm" id="WindChart_Station" style="width:200px;margin: 3px 0 0 30px;">
+                            <option>انتخاب ایستگاه</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>سنسور سرعت :</label>
+                        <select class="form-control input-sm" id="WindChart_SpeedSensor" style="width:200px;margin: 3px 0 0 10px;">
+                            <option>انتخاب سنسور سرعت</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>سنسور جهت :</label>
+                        <select class="form-control input-sm" id="WindChart_DirectionSensor" style="width:200px;margin: 3px 0 0 10px;">
+                            <option>انتخاب سنسور جهت</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-sm datepicker" id="FromDate" name="FromDate" style="width: 200px;margin: 3px 40px 0px 10px;" placeholder="تاریخ و ساعت شروع گزارش">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-sm datepicker" id="ToDate" name="ToDate" style="width: 200px;margin: 3px 118px 0  10px;" placeholder="تاریخ و ساعت پایان گزارش">
+                    </div>
+                    <button onclick="WindChart_filter()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5">نمایش نمودار</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <div class="row">
+                <div class="col-md-12" id="WindChart_View">
+
+                </div>
+            </div> 
+        </div><!-- end col -->
+    </div>
+</div>
+@section Scripts
+    {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="~/MyScript/WindChart/WindChart.js"></script>
+}

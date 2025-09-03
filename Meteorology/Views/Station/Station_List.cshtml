@@ -1,0 +1,33 @@
+﻿@model List<Station>
+
+<ul class="list-group" style="padding-left: 10px;">
+    @{
+        foreach (var item in Model)
+        {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <b>پروژه :</b>
+                                <p class="text-muted font-13">@item.Project.Name</p>
+                            </div>
+                            <div class="col-md-5">
+                                <b>ایستگاه :</b>
+                                <p class="text-muted font-13">@item.Name</p>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="col-md-3 m-t-5">
+                        @{
+                            if (User.IsInRole("AdminiStratore") || User.IsInRole("StationView"))
+                            {
+                                <button onclick="DetailStation(@item.Id)" class="btn btn-icon waves-effect waves-light btn-success  m-b-5"> <i class="zmdi zmdi-eye"></i> </button>
+                            }
+                        }
+                    </div>  
+                </div>
+            </li> 
+        }
+    }
+</ul>

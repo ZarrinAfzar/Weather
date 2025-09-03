@@ -1,0 +1,115 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model IEnumerable<ManagerTel>
+
+<button class="alert-success add-new-plus m-b-15" onclick="ManagerTel_Create()"><span class="fa fa-plus"></span></button>
+<table class="table table-striped table-bordered text-center">
+    <thead class="bg-whit">
+        <tr class="sticky-top d-flex">
+            <th class="flex-fill">ردیف</th>
+            <th class="flex-fill">نام</th>
+            <th class="flex-fill">نام خانوادگی</th>
+            <th class="flex-fill">تلفن</th>
+            <th class="flex-fill">شروع</th>
+            <th class="flex-fill">پایان</th>
+            <th class="flex-fill">مجموع 12 ساعته</th>
+            <th class="flex-fill">مجموع 24 ساعته</th>
+            <th class="flex-fill">هشدار سیل</th>
+            <th class="flex-fill">مجموع</th>
+            <th class="flex-fill">تایید شده</th>
+            <th class="flex-fill">تایید نشده</th>
+            <th class="flex-fill">مجموع متصدیان</th>
+            <th class="flex-fill">پیامک صبحگاهی</th>
+            <th class="flex-fill"></th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @{
+
+            if (Model.Count() == 0)
+            {
+                <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+            }
+            else
+            {
+                int row = 1;
+                foreach (var item in Model)
+                {
+                    <tr id="SensorAlarmDetailRow_@item.Id">
+                        <td>@row</td>
+                        <td>@item.Name</td>
+                        <td>@item.LastName</td>
+                        <td style="direction:ltr" class="text-center">@item.Tel</td>
+                        <td>
+                            @if (@item.Start)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            @if (@item.End)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            @if (@item.Sum12)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            @if (@item.Sum24)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            @if (@item.Warning)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            @if (@item.Sum)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            @if (@item.Accepted)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            @if (@item.NotAccepted)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+
+                            @if (@item.SumOprator)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+
+                            @if (@item.AcceptEditInsert)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                        </td>
+                        <td>
+                            <button onclick="ManagerTel_Delete(@item.Id)" class="icon circle-icon red zmdi zmdi-delete" style="border: 2px solid red;color: red;background-color: #fff;"></button>
+                            <button onclick="ManagerTel_Get(@item.Id)" class="icon circle-icon red zmdi zmdi-edit" style="border: 2px solid red;color: red;background-color: #fff;"></button>
+                        </td>
+                    </tr>
+                    row++;
+                }
+            }
+        }
+    </tbody>
+</table>

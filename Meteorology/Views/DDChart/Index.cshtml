@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.PageTitle = "نمودار درجه روز رشد";
+}
+
+<div class="row headerbox">
+    <div class="col-sm-12">
+        <div class="project-sort pull-right">
+            <div class="project-sort-item">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label>انتخاب پروژه :</label>
+                        <select id="DDChart_Project" asp-items="@ViewBag.ProjectList" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                            <option selected>تمام موارد</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>انتخاب ایستگاه :</label>
+                        <select id="DDChart_Station" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                            <option selected>انتخاب ایستگاه </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>انتخاب آفت :</label>
+                        <select id="DDChart_Alarms" class="form-control input-sm" style="width: 180px;margin: 3px 0 10px 10px;">
+                            <option selected>انتخاب آفت</option>
+                        </select>
+                    </div>
+                    <div class="form-group m-b-10">
+                        <label style="margin:4px;"> نوع محاسبه :</label>
+                        <div style="float: left;border: 1px solid #e3e3e3;border-radius: 3px;">
+                            <div class="radio radio-success" style="margin-right: 10px;width: 150px;">
+                                <input type="radio" name="DDType" id="AllData" value="AllData" checked="">
+                                <label for="AllData"> میانگین آماری </label>
+                            </div>
+                            <div class="radio radio-success" style="margin-right: 10px;width: 150px;">
+                                <input type="radio" name="DDType" id="Day" value="Day">
+                                <label for="Day"> کمینه و بیشینه روزانه </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <button onclick="DDChart_filter()" type="button" style="padding:4px 0 2px 0px;margin:4px 6% 0 0" class="btn btn-primary waves-effect w-md waves-light m-b-5">نمایش نمودار </button>
+                    <button onclick="ExportToExcel()" id="ExportToExcel"  type="button" style="padding:4px 0 2px 0px;margin:4px 6% 0 0" class="btn btn-primary waves-effect w-md waves-light m-b-5">خروجی excel </button>
+                                        <a id="SaveChart" download="filename.jpg" style="display:none;padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5">ذخیره نمودار</a>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col-->
+</div>
+                  
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <div class="row" id="Chart_View">
+                <div class="col-md-12" id="boxChart">
+                    @*<div id="lineChart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>*@
+
+                    <div id="trend_bl" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+                </div>
+            </div>
+        </div>
+    </div><!-- end col -->
+</div>
+
+
+@section Scripts
+    {
+
+
+    <script src="~/js/highcharts.js"></script>
+    <script src="~/js/exporting.js"></script>
+
+    <script src="~/MyScript/DDChart/DDChart.js"></script>
+
+}

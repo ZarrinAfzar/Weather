@@ -1,0 +1,25 @@
+﻿@using  Weather.Data.Base;
+@model IEnumerable<AlarmLog>
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>تاریخ آلارم</th>
+            <th>متن هشدار</th>
+            <th>تاریخ ثبت</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+        <tr>
+            
+            <td>@item.AlarmDateTime.ToPeString("yyyy/MM/dd HH:mm")</td>
+            <td>@item.AlarmMessage</td>
+            <td>@item.InsertDateTime.ToPeString("yyyy/MM/dd HH:mm")</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>

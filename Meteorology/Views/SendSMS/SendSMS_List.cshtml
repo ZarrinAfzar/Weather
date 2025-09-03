@@ -1,0 +1,105 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable
+
+@{
+
+    if (Model.Rows.Count == 0)
+    {
+        <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+    else
+    {
+        <input type="hidden" id="rowcount" value="@Model.Rows.Count" />
+        <div id="SendSMS_Tools ">
+            @{
+                if (ViewBag.DateType == "AllData")
+                {
+                    <div class="export">
+                        <i class="fa fa-arrow-circle-o-right" onclick="Previous()"></i>
+                        <i class="fa fa-arrow-circle-o-left" onclick="Next()"></i>
+                    </div>
+                }
+            }
+        </div>
+        <table id="datatable-buttons" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    @{
+                        foreach (DataColumn item in Model.Columns)
+                        {
+                            if (item.Caption == "DateTime")
+                            {
+                                <th>تاریخ</th>
+                            }
+                            else
+                            {
+                                <th>@item.Caption</th>
+                            }
+
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DataRow dr in Model.Rows)
+                    {
+
+                        <tr>
+                            @{
+                                foreach (DataColumn dc in Model.Columns)
+                                {
+                                    if (dc.Caption == "DateTime")
+                                    {
+                                        if (ViewBag.DateType == "AllData")
+                                        {
+                                            <td>@Convert.ToDateTime(dr[dc]).ToPeString("HH:mm:ss yyyy/MM/dd")</td>
+                                        }
+                                        else if (ViewBag.DateType == "DAY")
+                                        {
+                                            <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd")</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM")</td>
+                                        }
+                                    }
+
+                                    else
+                                    {
+                                        if (ViewBag.DateType == "AllData")
+                                        {
+                                            string data = dr[dc].ToString();
+                                            if (string.IsNullOrEmpty(data))
+                                            {
+                                                <td>-</td>
+                                            }
+                                            else
+                                            {
+                                                <td style="@(data.dataState() ? "" : "background - color:#000000;color:#ff0000") ">
+
+                                                    @Math.Round(data.dataGetValue(), data.dataGetDigit())
+                                                </td>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <td> @dr[dc].ToString() </td>
+
+                                        }
+                                    }
+                                }
+
+
+                            }
+
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}

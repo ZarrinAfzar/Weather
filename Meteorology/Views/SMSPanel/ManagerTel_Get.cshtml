@@ -1,0 +1,95 @@
+﻿@model Weather.Models.ManagerTel
+
+@if (Model != null)
+{
+    @using (Html.BeginForm("ManagerTel_Edit", "SMSPanel", FormMethod.Post, new { id = "formManagerTelEdit", onsubmit = "return ManagerTel_Edit(this);" }))
+    {
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, "نام")
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, "نام خانوادگی")
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Tel, "شماره تلفن")
+            @Html.TextBoxFor(m => m.Tel, new {
+            @class = "form-control",
+        placeholder = "09123456789",
+        pattern = @"09\d{9}",
+        title = "شماره موبایل باید با 09 شروع شده و 11 رقم باشد",
+        required = "required"
+        })
+    @Html.ValidationMessageFor(m => m.Tel, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.Start, new { @class = "form-check-input", id = "Start" })
+    @Html.LabelFor(m => m.Start, "شروع", htmlAttributes: new { @class = "form-check-label", @for = "Start" })
+    @Html.ValidationMessageFor(m => m.Start, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.End, new { @class = "form-check-input", id = "End" })
+    @Html.LabelFor(m => m.End, "پایان", htmlAttributes: new { @class = "form-check-label", @for = "End" })
+    @Html.ValidationMessageFor(m => m.End, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.Sum12, new { @class = "form-check-input", id = "Sum12" })
+    @Html.LabelFor(m => m.Sum12, "مجموع 12 ساعته", htmlAttributes: new { @class = "form-check-label", @for = "Sum12" })
+    @Html.ValidationMessageFor(m => m.Sum12, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.Sum24, new { @class = "form-check-input", id = "Sum24" })
+    @Html.LabelFor(m => m.Sum24, "مجموع 24 ساعته", htmlAttributes: new { @class = "form-check-label", @for = "Sum24" })
+    @Html.ValidationMessageFor(m => m.Sum24, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.Warning, new { @class = "form-check-input", id = "Warning" })
+    @Html.LabelFor(m => m.Warning, "هشدار سیل", htmlAttributes: new { @class = "form-check-label", @for = "Warning" })
+    @Html.ValidationMessageFor(m => m.Warning, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.Sum, new { @class = "form-check-input", id = "Sum" })
+    @Html.LabelFor(m => m.Sum, "مجموع", htmlAttributes: new { @class = "form-check-label", @for = "Sum" })
+    @Html.ValidationMessageFor(m => m.Sum, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.Accepted, new { @class = "form-check-input", id = "Accepted" })
+    @Html.LabelFor(m => m.Accepted, "تایید شده", htmlAttributes: new { @class = "form-check-label", @for = "Accepted" })
+    @Html.ValidationMessageFor(m => m.Accepted, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.NotAccepted, new { @class = "form-check-input", id = "NotAccepted" })
+    @Html.LabelFor(m => m.NotAccepted, "تایید نشده", htmlAttributes: new { @class = "form-check-label", @for = "NotAccepted" })
+    @Html.ValidationMessageFor(m => m.NotAccepted, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.SumOprator, new { @class = "form-check-input", id = "SumOprator" })
+    @Html.LabelFor(m => m.SumOprator, "مجموع متصدیان", htmlAttributes: new { @class = "form-check-label", @for = "SumOprator" })
+    @Html.ValidationMessageFor(m => m.SumOprator, "", new { @class = "text-danger" })
+</div>
+
+<div class="form-check">
+    @Html.CheckBoxFor(m => m.AcceptEditInsert, new { @class = "form-check-input", id = "AcceptEditInsert" })
+    @Html.LabelFor(m => m.AcceptEditInsert, "پیامک صبحگاهی", htmlAttributes: new { @class = "form-check-label", @for = "AcceptEditInsert" })
+    @Html.ValidationMessageFor(m => m.AcceptEditInsert, "", new { @class = "text-danger" })
+</div>
+
+<button type="submit" class="btn btn-primary mt-3">ذخیره</button>
+    }
+}

@@ -1,0 +1,57 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable
+
+@{
+
+    if (Model.Rows.Count == 0)
+    {
+        <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+    else
+    {
+
+
+        <table id="datatable-buttons" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    @{
+
+                        <th> استان</th>
+                        <th> ایستگاه</th>
+                        <th> شماره سیم کارت</th>
+                        <th>حداقل فاصله زمانی(دقیقه)</th>
+                        <th>حداکثر فاصله زمانی(دقیقه)</th>
+                        <th>آخرین تاریخ ارسال داده</th>
+                    }
+
+            </thead>
+            <tbody>
+                @{
+                    foreach (DataRow dr in Model.Rows)
+                    {
+
+                        <tr>
+                            @{ foreach (DataColumn dc in Model.Columns)
+                                {
+
+                                    if (dc.Caption == "lastDate")
+                                    {
+
+                                        <td>  @Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd")</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@dr[dc].ToString()</td>
+                                    }
+                                }
+                            }
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}

@@ -1,0 +1,236 @@
+.sticky-top th {
+    position: sticky !important;
+    background: white !important;
+    z-index: 10 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: inset 0 -1px 0 #ccc;
+}
+
+.sticky-top th {
+    top: -1px;
+}
+
+.sticky-top td {
+    top: 17px !important;
+}
+
+.headerbox {
+    padding: 6px 0px 0px 2px;
+    margin-bottom: 3px;
+    background-color: #fff;
+    box-shadow: 0px 0px 11px 0px #a5a5a5;
+    border-radius: 3px;
+}
+
+.projectCardBox {
+    padding: 7px 12px 3px 13px;
+    margin: 2px;
+}
+
+.titlePoint {
+    margin: 24px 5px 0 -10px;
+    font-size: 22px;
+    color: #f80;
+}
+
+.litelCardBox {
+    max-height: 600px;
+    height: 600px;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #b3b3b3;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #f80;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+.buttonBox {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+}
+
+.buttonBoxIcon {
+    font-size: 17px;
+    padding: 1px;
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    color: #188ae2;
+}
+
+.downloadBoxStyle {
+    width: 100px;
+    float: left;
+    clear: left;
+    margin: 2px;
+}
+
+.downloadCardBox {
+    border: 1px dotted #bbb;
+    box-shadow: none;
+    margin: 3px;
+    padding: 10px;
+}
+
+.correspondenceStyle {
+    width: 125px;
+    float: left;
+    clear: left;
+    margin: 2px;
+}
+
+.telButton {
+    width: 20px;
+    height: 20px;
+    padding: 4px;
+    margin: 2px;
+    cursor: pointer;
+    border: none;
+}
+
+    .telButton:hover {
+        box-shadow: 0px 1px 4px 1px #5d5d5d
+    }
+
+.telListBox {
+    height: 160px;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 8px 12px 4px 12px;
+    cursor: pointer;
+    width: 254px;
+    margin-right: 147px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.userBox b {
+    color: #000;
+    float: right;
+    clear: right;
+}
+
+.userBox p {
+    color: #808080;
+    float: right;
+    margin-right: 5px;
+}
+
+.userButtonBox li:nth-child(even) {
+    /* padding-right: 10px !important; */
+    padding-right: 0px !important;
+    float: right;
+    width: 30px;
+}
+
+.userButtonBox li:nth-child(odd) {
+    padding-right: 0px !important;
+    /* padding-right: 35px !important; */
+    width: 30px;
+    clear: right;
+    float: right;
+    margin-right: 25px;
+}
+
+.paging {
+    /*display: none;*/
+}
+
+.listPreLoader {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+}
+
+    .listPreLoader h4 {
+        font-size: 40px;
+        color: #fff;
+        position: fixed;
+        top: 56%;
+        left: 35%;
+    }
+
+.ListPreLoaderImage {
+    position: fixed;
+    top: 37%;
+    left: 40%;
+    width: 200px;
+}
+
+.listStyleButton {
+    padding: 5px 6px 4px 6px;
+    margin: 3px;
+    cursor: pointer
+}
+
+    .listStyleButton:hover {
+        box-shadow: 0px 1px 4px 1px #5d5d5d
+    }
+
+.acctivePage {
+    background-color: #f80;
+    color: #fff;
+}
+
+.basePage_Header {
+    text-align: center;
+    border-bottom: 1px solid #F80;
+    padding-bottom: 5px;
+    color: #F80;
+}
+
+span.arrow {
+    height: 17px;
+    display: block;
+    position: absolute;
+    width: 100%;
+    margin: -13px 0px 0px 0px;
+    text-align: left;
+    z-index: 9999;
+}
+
+label.error {
+    margin-top: -31px;
+    font-size: initial;
+    color: #ff4343;
+    float: right;
+    margin-left: 22px;
+}
+
+
+.export i {
+    font-size: 21px;
+    color: #F80;
+    cursor: pointer;
+    margin: 5px;
+}
+
+    .export i:hover {
+        color: #188ae2;
+    }

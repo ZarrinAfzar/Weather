@@ -1,0 +1,38 @@
+﻿@model Correspondence
+
+<form role="form" id="Form_Save_MessageForAnswer" class="form-horizontal">
+    <input type="hidden" asp-for="MessageAnswerId" name="MessageAnswerId" id="MessageAnswerId" value="@Model.MessageAnswerId"/>
+    <p style="text-align: right; color: #717171; box-shadow: 0px 0px 3px 2px #bbb; padding: 5px;" id="MessageQuestion">
+        <strong style="color: #f80;">پاسخ به پیام :</strong>
+        @Model.OldTxt
+    </p>
+    <div class="m-b-5">
+        <h5><b style="float: right; margin-bottom: 5px;">متن پیام :</b></h5>
+        <textarea asp-for="MessageText" name="MessageText" id="MessageText" class="form-control" rows="2"></textarea>
+    </div>
+    <button type="button" onclick="Save_MessageForAnswer()" class="btn btn-icon waves-effect waves-light btn-success m-b-5"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+   @*<button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();"> <i class="zmdi zmdi-close" style="font-weight: bolder;"></i> </button>*@
+</form>
+
+<script>
+    function Save_MessageForAnswer() {
+        var a = $("#MessageAnswerId").val();
+        var b = $("#MessageText").val();
+               $.ajax({
+            url: "/User/Save_MessageForAnswer/",
+            type: "post",
+            cache: false,
+            async: false,
+            dataType: "json",
+            data: { MessageAnswerId: $("#MessageAnswerId").val(), MessageText: $("#MessageText").val()},
+            success: function (result) {
+                if (result) {
+                    $("#myModal").modal('hide'); 
+                    messageBox("success", "پیام مورد نظر ثبت شد");
+                } else {
+                    messageBox("error", "خطا در سیستم");
+                }
+            }
+        });
+    }
+</script>

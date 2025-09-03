@@ -1,0 +1,42 @@
+﻿@using Weather.Data.Base;
+@using System.Data;
+@model DataTable
+
+@{
+
+    if (Model.Rows.Count == 0)
+    {
+        <h4 style="text-align:center;color:red">اطلاعاتی برای نمایش وجود ندارد</h4>
+    }
+    else
+    {
+        <input type="hidden" id="rowcount" value="@Model.Rows.Count" />
+
+        <table id="datatable-buttons" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <td>تاریخ</td>
+                    <td>مقدار درجه روز رشد</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (DataRow dr in Model.Rows)
+                    {
+
+                <tr>
+                    @{
+
+                    <td>dr["DateTime"].ToString()</td>
+
+                    <td>dr["PDD"].ToString()</td>
+
+                    }
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}

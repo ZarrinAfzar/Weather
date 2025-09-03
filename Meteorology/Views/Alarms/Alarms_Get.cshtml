@@ -1,0 +1,92 @@
+﻿@model Alarm
+
+<form id="Alarm_formBody">
+    <div class="modal-body">
+        <input type="hidden" asp-for="Id" id="Id" name="Id" value="@Model.Id" />
+        <h5><b style="float: right; margin-bottom: 5px;">پروژه :</b></h5>
+        <select id="AlarmsGet_Project" asp-items="@ViewBag.ProjectList" asp-for="Station.ProjectId" class="form-control input-sm">
+            <option value="0">انتخاب پروژه</option>
+        </select>
+        <h5><b style="float: right; margin-bottom: 5px;">ایستگاه :</b></h5>
+        <select id="AlarmsGet_StationId" name="StationId" asp-items="@ViewBag.StationList" asp-for="StationId" class="form-control input-sm">
+            <option value="">پروژه انتخاب نشده است</option>
+        </select>
+        <div class="m-t-20">
+            <h5><b style="float: right; margin-bottom: 5px;">نوع آلارم :</b></h5>
+            <select id="AlarmType" name="AlarmType" asp-for="AlarmType" class="form-control input-sm">
+                <option value="">انتخاب نوع آلارم</option>
+                <option value="1">آلارم سنسور ها</option>
+                <option value="3">آلارم آفات</option>
+            </select>
+        </div>
+
+        <div class="m-t-20">
+            <h5><b style="float: right; margin-bottom: 5px;">تاریخ شروع :</b></h5>
+            <input type="text" asp-for="AlarmStartDateConvertor" class="form-control input-sm datepicker" id="AlarmStartDateConvertor" name="AlarmStartDateConvertor">
+        </div>
+        <div class="m-t-20">
+            <h5><b style="float: right; margin-bottom: 5px;">تاریخ پایان :</b></h5>
+            <input type="text" asp-for="AlarmEndDateConvertor" class="form-control input-sm datepicker" id="AlarmEndDateConvertor" name="AlarmEndDateConvertor">
+        </div>
+
+        <div class="m-t-20">
+            <h5><b style="float: right; margin-bottom: 5px;">عنوان :</b></h5>
+            <input type="text" asp-for="AlarmName" class="form-control input-sm" name="AlarmName" id="AlarmName">
+        </div>
+
+        <div class="m-t-20">
+            <h5><b style="float: right; margin-bottom: 5px;">متن پیام :</b></h5>
+            <input type="text" asp-for="AlarmMessage" class="form-control input-sm" id="AlarmMessage" name="AlarmMessage">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="Alarms_Save()"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+        @*<button type="button" class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close()">  <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </button>*@
+    </div>
+</form>
+
+
+<script>
+    $(document).ready(function () {
+        $("#AlarmsGet_Project").change();
+
+        $(".datepicker").pDatepicker({
+            format: 'YYYY/MM/DD HH:mm:ss',
+            initialValue: false,
+            altFormat: 'LLLL',
+            initialValueType: 'persian',
+            autoClose: true,
+            timePicker: {
+                enabled: true,
+                meridiem: {
+                    enabled: false
+                }
+            },
+            navigator: {
+                scroll: {
+                    enabled: false
+                }
+            }
+        });
+
+        $("#AlarmsGet_Project").change(function () {
+            $.ajax({
+                type: "POST",
+                cache: false,
+                async: false,
+                url: "/Alarms/GetStation/",
+                data: { Projectid: $("#AlarmsGet_Project").val() },
+                dataType: "json",
+                success: function (station) {
+                    $("#AlarmsGet_StationId").empty();
+                    $("#AlarmsGet_StationId").append("<option selected value=''>اتنخاب ایستگاه</option>");
+                    $.each(station,
+                        function () {
+                            $("#AlarmsGet_StationId").append($("<option></option>").val(this['id']).html(this['name']));
+                        });
+                }
+            });
+        });
+    });
+</script>
+

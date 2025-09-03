@@ -1,0 +1,39 @@
+﻿@model Project
+
+<div class="modal-body">
+    <input type="hidden" id="projectId" value="@Model.Id" />
+    <input type="hidden" id="OldsmsCount" value="@Model.SmsCount" />
+    <h5><b>کد :</b></h5>
+    <p class="text-muted font-13">
+        @Model.Code
+    </p>
+    <div class="m-t-20">
+        <h5><b>عنوان :</b></h5>
+        <p class="text-muted font-13">
+            @Model.Name
+        </p>
+    </div>
+    <div class="m-t-20">
+        <h5><b>توضیحات :</b></h5>
+        <p class="text-muted font-13">
+            @Model.Detail
+        </p>
+    </div>
+    <div class="m-t-20">
+        <h5><b> تعداد  پیامک های تخصیص داده شده :</b></h5>
+        <p class="text-muted font-13">@ViewBag.AllSms</p>
+    </div>
+    <div class="m-t-20">
+        <h5><b> تعداد پیامک باقیمانده :</b></h5>
+        <p class="text-muted font-13">@Model.SmsCount</p>
+    </div>
+    <div class="m-t-20">
+        <h5><b>شارژ مجدد پیامک به تعداد :</b></h5>
+        <input type="text" class="form-control input-sm" name="SmsCount" id="SmsCount" value="0">
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="SmsRequest_Save()"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+    @*<button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();">  <i class="zmdi zmdi-minus" style="font-weight: bolder;"></i> </button>*@
+</div>

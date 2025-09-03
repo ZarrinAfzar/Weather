@@ -1,0 +1,614 @@
+﻿@using Weather.Data.Base
+@model Weather.Data.ViewModel.BaseInfoVm
+
+@{
+    ViewBag.PageTitle = "اطلاعات پایه";
+}
+
+<div class="row m-b-20">
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("BaseInfoState"))
+        {
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">استان ها</h4>
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 120px;">
+                            <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">استان :</label>
+                            <div class="col-md-8">
+                                <input type="hidden" id="State_Id" value="0">
+                                <input type="text" id="State_Name" class="form-control input-sm" placeholder="نام استان را وارد کنید">
+                            </div>
+                            <button onclick="State_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <ul class="list-group" id="State_List">
+                                    @{
+                                        foreach (var item in Model.States)
+                                        {
+                                            <li class="list-group-item" id="StateItem_@item.Id">
+                                                <span onclick="State_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="State_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                <text id="StateItemName_@item.Id">@item.Name</text>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- BaseInfoState -->
+        }
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("BaseInfoCities"))
+        {
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">شهرستان ها</h4>
+
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 120px;">
+                            <div class="col-md-12">
+                                <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">استان :</label>
+                                <div class="col-md-8">
+                                    <select class="form-control input-sm" id="city_StateId" asp-items="@ViewBag.StateList">
+                                        <option>پروژه...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 m-t-5">
+                                <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">شهرستان :</label>
+                                <div class="col-md-8">
+                                    <input type="hidden" id="City_Id" value="0">
+                                    <input type="text" id="city_Name" class="form-control input-sm" placeholder="نام استان را وارد کنید">
+                                </div>
+                                <button onclick="City_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <ul class="list-group" id="City_List">
+                                    @{
+                                        foreach (var item in Model.Cities)
+                                        {
+                                            <li class="list-group-item" id="CityItem_@item.Id">
+                                                <span onclick="City_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="City_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                <p style="margin: 0;" id="CityItemName_@item.Id"><b> @item.Name</b> <text style="font-size: 11px;color: #188ae2;">@item.State.Name</text></p>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- BaseInfoCities -->
+        }
+    }
+</div>
+<div class="row m-b-20">
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("BaseInfoDataLoger"))
+        {
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">دیتالاگر ها</h4>
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 120px;">
+                            <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">دیتالاگر :</label>
+                            <div class="col-md-8">
+                                <input type="hidden" id="DataLogger_Id" value="0">
+                                <input type="text" id="DataLogger_Name" class="form-control input-sm" placeholder="نام دیتالاگر را وارد کنید">
+                            </div>
+                            <button onclick="DataLogger_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <ul class="list-group" id="DataLogger_List">
+                                    @{
+                                        foreach (var item in Model.DataLoggers)
+                                        {
+                                            <li class="list-group-item" id="DataLoggerItem_@item.Id">
+                                                <span onclick="DataLogger_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="DataLogger_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                <text id="DataLoggerItemName_@item.Id">@item.Name</text>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end col -->
+        }
+
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("BaseInfoStationType"))
+        {
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">انواع ایستگاه ها</h4>
+
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 120px;">
+                            <div class="col-md-12 m-t-5">
+                                <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">نوع ایستگاه :</label>
+                                <div class="col-md-8">
+                                    <input type="hidden" id="StationType_Id" value="0">
+                                    <input type="text" id="StationType_Name" class="form-control input-sm" placeholder="نوع ایستگاه را وارد کنید">
+                                </div>
+                            </div>
+                            <div class="col-md-12 m-t-5  m-b-5">
+                                <label for="StationType_Image" class="custom-file-upload" style="margin-right: 94px;width: 316px;">
+                                    <i class="fa fa-cloud-upload"></i> انتخاب تصویر آیکون
+                                </label>
+                                <input id="StationType_Image" name="StationType_Image" type="file" style="display: none;" />
+                                <button onclick="StationType_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <ul class="list-group" id="StationType_List">
+                                    @{
+                                        foreach (var item in Model.StationTypes)
+                                        {
+                                            <li class="list-group-item" id="StationTypeItem_@item.Id">
+                                                <span onclick="StationType_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="StationType_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                @*<img id="StationTypeItemIcon_@item.Id" src="@item.IconPath" style="width:24px;margin-left: 10px;border: 1px solid #bbb;border-radius: 100px;" />*@
+                                                <text id="StationTypeItemName_@item.Id">@item.Name</text>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- end col -->
+        }
+    }
+</div>
+<div class="row m-b-20">
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("BaseInfoModemType"))
+        {
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">انواع مودم</h4>
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 120px;">
+                            <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">استان :</label>
+                            <div class="col-md-8">
+                                <input type="hidden" id="ModemType_Id" value="0">
+                                <input type="text" id="ModemType_Name" class="form-control input-sm" placeholder="نام مودم را وارد کنید">
+                            </div>
+                            <button onclick="ModemType_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <ul class="list-group" id="ModemType_List">
+                                    @{
+                                        foreach (var item in Model.ModemTypes)
+                                        {
+                                            <li class="list-group-item" id="ModemTypeItem_@item.Id">
+                                                <span onclick="ModemType_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="ModemType_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                <text id="ModemTypeItemName_@item.Id">@item.Name</text>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end col -->
+        }
+    }
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("ForecastsAlarmParameter"))
+        {
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">پارامترهای پیش بینی</h4>
+
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 160px;">
+                            <div class="col-md-12 m-t-5">
+                                <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">نام :</label>
+                                <div class="col-md-8">
+                                    <input type="hidden" id="ForecastsAlarmParameter_Id" value="0">
+                                    <input type="text" id="ForecastsAlarmParameter_Name" class="form-control input-sm" placeholder="نام پارامتر را وارد کنید">
+                                </div>
+                            </div>
+                            <div class="col-md-12 m-t-5">
+                                <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">مقدار :</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="ForecastsAlarmParameter_Value" class="form-control input-sm" placeholder="مقدار پارامتر را وارد کنید">
+                                </div>
+                            </div>
+                            <div class="col-md-12 m-t-5">
+                                <label class="col-sm-2 control-label" for="MinMaxValue" style="padding-top: 5px;text-align: left">نوع :</label>
+                                <div class="col-sm-8">
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" name="ForecastsAlarmParameter_Type" id="ForecastsAlarmParameter_Type1" onclick="ForecastsAlarmParameter_Type(1)">
+                                        <label for="ForecastsAlarmParameter_Type1"> دما </label>
+                                    </div>
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" name="ForecastsAlarmParameter_Type" id="ForecastsAlarmParameter_Type2" onclick="ForecastsAlarmParameter_Type(0)">
+                                        <label for="ForecastsAlarmParameter_Type2"> وضعیت جوی </label>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-12 m-t-5  m-b-5">
+                                <div id="ForecastsAlarmParameter_ImageBox" class="col-md-10">
+                                    <label for="ForecastsAlarmParameter_Image" class="custom-file-upload" style="margin-right: 83px;width: 316px;">
+                                        <i class="fa fa-cloud-upload"></i> انتخاب تصویر آیکون
+                                    </label>
+                                    <input id="ForecastsAlarmParameter_Image" name="ForecastsAlarmParameter_Image" type="file" style="display: none;" />
+                                </div>
+                                <div class="col-md-2">
+                                    <button onclick="ForecastsAlarmParameter_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 160px;overflow-y: auto;">
+                                <ul class="list-group" id="ForecastsAlarmParameter_List">
+                                    @{
+                                        foreach (var item in Model.ForecastsAlarmParameters)
+                                        {
+                                            <li class="list-group-item" id="ForecastsAlarmParameterItem_@item.Id">
+                                                <span onclick="ForecastsAlarmParameter_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="ForecastsAlarmParameter_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                <img id="ForecastsAlarmParameterItemIcon_@item.Id" src="@item.IconPath" style="width:24px;margin-left: 10px;border: 1px solid #bbb;border-radius: 100px;" />
+                                                <text id="ForecastsAlarmParameterItemName_@item.Id">@item.Name  @item.Value</text>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+</div>
+<div class="row m-b-20">
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("SensorType"))
+        {
+            <div class="col-lg-12">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">نام استاندارد سنسورها</h4>
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 110px;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="hidden" id="SensorTypes_Id" value="0">
+                                    <div class="col-md-12 m-t-5">
+                                        <label class="col-md-2 control-label text-right">نام فارسی :</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="SensorTypes_FaName" class="form-control input-sm" placeholder="نام فارسی را وارد کنید">
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-12 m-t-5">
+                                        <label class="col-md-2 control-label text-right">بیشترین مقدار :</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="SensorTypes_Max" class="form-control input-sm" placeholder="بیشترین مقدار را وارد کنید">
+                                        </div>
+                                    </div>*@
+                                    <div class="col-md-12 m-t-5">
+                                        <label class="col-md-2 control-label text-right">نوع سنسور :</label>
+                                        <div class="col-md-8">
+                                            <div class="radio  radio-inline radio-success" style="margin-right: -20px;">
+                                                <input type="radio" name="SensorTypes_SensorType_State" id="Regular" value="1">
+                                                <label for="Regular"> سنسور حقیقی </label>
+                                            </div>
+                                            <div class="radio  radio-inline radio-success m-r-10">
+                                                <input type="radio" name="SensorTypes_SensorType_State" id="Virtual" value="2">
+                                                <label for="Virtual"> سنسور مجازی </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12 m-t-5">
+                                        <label class="col-md-2 control-label text-right">نام لاتین :</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="SensorTypes_EnName" class="form-control input-sm m-b-5" placeholder="نام لاتین را وارد کنید">
+                                        </div>
+                                        <button onclick="SensorTypes_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                                    </div>
+                                    @*<div class="col-md-12 m-t-5">
+                                        <label class="col-md-2 control-label text-right">کمترین مقدار :</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="SensorTypes_Min" class="form-control input-sm" placeholder="کمترین مقدار را وارد کنید">
+                                        </div>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <table class="table table-striped m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>نام فارسی</th>
+                                            <th>نام لاتین</th>
+                                            @*<th>کمترین مقدار</th>
+                                            <th>بیشترین مقدار</th>*@
+                                            <th>نوع سنسور</th>
+                                            <th>#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="SensorTypes_List">
+                                        @{
+                                            foreach (var item in Model.SensorTypes)
+                                            {
+                                                <tr id="SensorTypes_ListItem_@item.Id">
+                                                    <td>@item.FaName</td>
+                                                    <td>@item.EnName</td>
+                                                    @*<td>@item.Min</td>
+                                                    <td>@item.Max</td>*@
+                                                    <td>@item.SensorType_State.GetDisplayName()</td>
+                                                    <td>
+                                                        <span onclick="SensorTypes_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                        <span onclick="SensorTypes_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end col -->
+        }
+    }
+</div>
+<div class="row m-b-20">
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("Unit"))
+        {
+            <div class="col-lg-6">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">واحد اندازه گیری</h4>
+
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 120px;">
+                            <div class="col-md-12 m-t-5">
+                                <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">نام فارسی :</label>
+                                <div class="col-md-8">
+                                    <input type="hidden" id="Unit_Id" value="0">
+                                    <input type="text" id="Unit_FaName" class="form-control input-sm" placeholder="نام فارسی واحد اندازه گیری">
+                                </div>
+                            </div>
+                            <div class="col-md-12 m-t-5">
+                                <label class="col-md-2 control-label" style="padding-top: 5px;text-align: left">نام لاتین :</label>
+                                <div class="col-md-8">
+                                    <input type="text" id="Unit_EnName" class="form-control input-sm" placeholder="نام لاتین واحد اندازه گیری">
+                                </div>
+                                <button onclick="Unit_Save()" class="btn btn-icon waves-effect waves-light btn-primary m-b-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <ul class="list-group" id="Unit_List">
+                                    @{
+                                        foreach (var item in Model.Units)
+                                        {
+                                            <li class="list-group-item" id="UnitItem_@item.Id">
+                                                <span onclick="Unit_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="Unit_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                                <text id="UnitItemName_@item.Id">@($"{item.FaName}({item.EnName})")</text>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+</div>
+<div class="row m-b-20">
+    @{
+        if (User.IsInRole("AdminiStratore") || User.IsInRole("VirtualSensorBase"))
+        {
+            <div class="col-lg-12">
+                <div class="card-box">
+                    <h4 class="header-title m-t-0 m-b-5 basePage_Header">اطلاعات پایه سنسورهای مجازی</h4>
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom: 1px dotted #188ae2; padding-bottom: 5px; margin-bottom: 5px;height: 220px;">
+                            <form id="VirtualSensorBase_Form" class="row">
+                                <div class="col-md-6">
+                                    <input type="hidden" id="VirtualSensorBase_Id" name="Id" value="0">
+                                    <div class="col-md-12 m-t-5">
+                                        <label class="col-md-3 control-label text-right">نوع سنسور :</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control input-sm" name="SensorTypeId" id="VirtualSensorBase_SensorTypeId" asp-items="@ViewBag.SensorList">
+                                                <option value="0">سنسورهای مجازی ...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12  m-t-30">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">نام پارامتر اول :</label>
+                                            <div class="col-md-8">
+                                                <input type="text"  name="ParameterName1" id="VirtualSensorBase_Name1" class="form-control input-sm" placeholder="نام پارامتر اول را وارد کنید">
+                                            </div>
+                                        </div>
+                                        <div class="form-group p-t-10">
+                                            <label class="col-md-3 control-label text-right m-t-5">مقدار و نوع پارامتر اول :</label>
+                                            <div class="col-sm-4 m-t-5">
+                                                <input type="text"  name="ParameterValue1" id="VirtualSensorBase_Value1" class="form-control input-sm col-md-6" placeholder="مقدار پارامتر اول را وارد کنید">
+                                            </div>
+                                            <div class="col-sm-4 m-t-5">
+                                                <select class="form-control input-sm col-md-6" name="ParameterType1" id="VirtualSensorBase_Type1">
+                                                    <option value="0">نوع پارامتر</option>
+                                                    <option value="real">عددی</option>
+                                                    <option value="time">ساعت</option>
+                                                    <option value="date">تاریخ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12  m-t-5">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">نام پارامتر دوم :</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="ParameterName2"  id="VirtualSensorBase_Name2" class="form-control input-sm" placeholder="نام پارامتر دوم را وارد کنید">
+                                            </div>
+                                        </div>
+                                        <div class="form-group  m-t-5">
+                                            <label class="col-md-3 control-label text-right m-t-5">مقدار و نوع پارامتر دوم :</label>
+                                            <div class="col-sm-4 m-t-5">
+                                                <input type="text" name="ParameterValue2"  id="VirtualSensorBase_Value2" class="form-control input-sm col-md-6" placeholder="مقدار پارامتر دوم را وارد کنید">
+                                            </div>
+                                            <div class="col-sm-4 m-t-5">
+                                                <select class="form-control input-sm col-md-6" name="ParameterType2" id="VirtualSensorBase_Type2">
+                                                    <option value="0">نوع پارامتر</option>
+                                                    <option value="real">عددی</option>
+                                                    <option value="time">ساعت</option>
+                                                    <option value="date">تاریخ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12  m-t-5">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">نام پارامتر سوم :</label>
+                                            <div class="col-md-8">
+                                                <input type="text"  name="ParameterName3" id="VirtualSensorBase_Name3" class="form-control input-sm" placeholder="نام پارامتر سوم را وارد کنید">
+                                            </div>
+                                        </div>
+                                        <div class="form-group p-t-10">
+                                            <label class="col-md-3 control-label text-right m-t-5">مقدار و نوع پارامتر سوم :</label>
+                                            <div class="col-sm-4 m-t-5">
+                                                <input type="text"  name="ParameterValue3" id="VirtualSensorBase_Value3" class="form-control input-sm col-md-6" placeholder="مقدار پارامتر سوم را وارد کنید">
+                                            </div>
+                                            <div class="col-sm-4 m-t-5">
+                                                <select class="form-control input-sm col-md-6" name="ParameterType3" id="VirtualSensorBase_Type3">
+                                                    <option value="0">نوع پارامتر</option>
+                                                    <option value="real">عددی</option>
+                                                    <option value="time">ساعت</option>
+                                                    <option value="date">تاریخ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12  m-t-5">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">نام پارامتر چهارم :</label>
+                                            <div class="col-md-8">
+                                                <input type="text"  name="ParameterName4" id="VirtualSensorBase_Name4" class="form-control input-sm" placeholder="نام پارامتر چهارم را وارد کنید">
+                                            </div>
+                                        </div>
+                                        <div class="form-group  m-t-5">
+                                            <label class="col-md-3 control-label text-right m-t-5">مقدار و نوع پارامتر چهارم :</label>
+                                            <div class="col-sm-4 m-t-5">
+                                                <input type="text"  name="ParameterValue4" id="VirtualSensorBase_Value4" class="form-control input-sm col-md-6" placeholder="مقدار پارامتر چهارم را وارد کنید">
+                                            </div>
+                                            <div class="col-sm-4 m-t-5">
+                                                <select class="form-control input-sm col-md-6" name="ParameterType4" id="VirtualSensorBase_Type4">
+                                                    <option value="0">نوع پارامتر</option>
+                                                    <option value="real">عددی</option>
+                                                    <option value="time">ساعت</option>
+                                                    <option value="date">تاریخ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12  m-t-5">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label text-right">نام پارامتر پنجم :</label>
+                                            <div class="col-md-8">
+                                                <input type="text" name="ParameterName5"  id="VirtualSensorBase_Name5" class="form-control input-sm" placeholder="نام پارامتر پنجم را وارد کنید">
+                                            </div>
+                                        </div>
+                                        <div class="form-group  m-t-5">
+                                            <label class="col-md-3 control-label text-right m-t-5">مقدار و نوع پارامتر پنجم :</label>
+                                            <div class="col-sm-4 m-t-5">
+                                                <input type="text"  name="ParameterValue5" id="VirtualSensorBase_Value5" class="form-control input-sm col-md-6" placeholder="مقدار پارامتر پنجم را وارد کنید">
+                                            </div>
+                                            <div class="col-sm-4 m-t-5">
+                                                <select class="form-control input-sm col-md-6" name="ParameterType5" id="VirtualSensorBase_Type5">
+                                                    <option value="0">نوع پارامتر</option>
+                                                    <option value="real">عددی</option>
+                                                    <option value="time">ساعت</option>
+                                                    <option value="date">تاریخ</option>
+                                                </select>
+                                            </div>
+                                            <button type="button" onclick="VirtualSensorBase_Save()" class="btn btn-icon waves-effect waves-light btn-primary col-sm-1 m-t-5" style="padding: 5px 15px 2px 15px;"> <i class="fa fa-save"></i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12">
+                            <div style="height: 200px;overflow-y: auto;">
+                                <table class="table table-striped m-0">
+                                    <thead>
+                                        <tr>
+                                            <th>سنسور</th>
+                                            <th>پارامتر اول</th>
+                                            <th>پارامتر دوم</th>
+                                            <th>پارامتر سوم</th>
+                                            <th>پارامتر چهارم</th>
+                                            <th>پارامتر پنجم</th>
+                                            <th>#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="VirtualSensorBase_List">
+                                        @{
+                                            foreach (var item in Model.VirtualSensorBases)
+                                            {
+                                        <tr id="VirtualSensorBase_ListItem_@item.Id">
+                                            <td>@($"{item.SensorType.FaName} ({item.SensorType.EnName})")</td>
+                                            <td>@(!string.IsNullOrEmpty(item.ParameterName1) ? $"{item.ParameterName1} - {item.ParameterType1Title} - {item.ParameterValue1}" : "---")</td>
+                                            <td>@(!string.IsNullOrEmpty(item.ParameterName2) ? $"{item.ParameterName2} - {item.ParameterType2Title} - {item.ParameterValue2}" : "---")</td>
+                                            <td>@(!string.IsNullOrEmpty(item.ParameterName3) ? $"{item.ParameterName3} - {item.ParameterType3Title} - {item.ParameterValue3}" : "---")</td>
+                                            <td>@(!string.IsNullOrEmpty(item.ParameterName4) ? $"{item.ParameterName4} - {item.ParameterType4Title} - {item.ParameterValue4}" : "---")</td>
+                                            <td>@(!string.IsNullOrEmpty(item.ParameterName5) ? $"{item.ParameterName5} - {item.ParameterType5Title} - {item.ParameterValue5}" : "---")</td>
+                                            <td>
+                                                <span onclick="VirtualSensorBase_Delete(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-trash-o"></i></span>
+                                                <span onclick="VirtualSensorBase_Get(@item.Id)" class="badge badge-primary listStyleButton"><i class="fa fa-pencil"></i></span>
+                                            </td>
+                                        </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end col -->
+        }
+    }
+</div>
+<script src="~/MyScript/BaseInfo/State.js"></script>
+<script src="~/MyScript/BaseInfo/City.js"></script>
+<script src="~/MyScript/BaseInfo/DataLogger.js"></script>
+<script src="~/MyScript/BaseInfo/ModemType.js"></script>
+<script src="~/MyScript/BaseInfo/StationType.js"></script>
+<script src="~/MyScript/BaseInfo/SensorTypes.js"></script>
+<script src="~/MyScript/BaseInfo/ForecastsAlarmParameter.js"></script>
+<script src="~/MyScript/BaseInfo/Unit.js"></script>
+<script src="~/MyScript/BaseInfo/VirtualSensorBase.js"></script>

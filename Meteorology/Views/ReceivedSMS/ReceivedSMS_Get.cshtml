@@ -1,0 +1,62 @@
+﻿@model ReceivedSMS
+<form id="formBody_ReceivedSMS" role="form">
+    <div class="custom-modal-text">
+        <div class="row">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <input type="hidden" asp-for="@Model.Id" id="Id" />
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_StationName">نام ایستگاه :</label>
+                     <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.StationName" id="StationName" name="StationName" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_DatePrs">تاریخ :</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm datepicker" id="DatePrs" name="DatePrs" style="width: 180px;margin: 3px 0 10px 10px;" placeholder="تاریخ و ساعت شروع گزارش">
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SensorStting_Type">نوع پیامک :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.Type" id="Type" name="Type" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_LastName">بیشترین مقدار :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.MaxValue" id="MaxValue" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_Tel">کمترین مقدار :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.MinValue" id="MinValue" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_Tel">شماره سریال سنسور :</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.SensorSerial" id="SensorSerial" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_Tel">شرکت سازنده</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.SensorCompany" id="SensorCompany" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ReceivedSMS_Tel">نوع تکنیکی سنسور</label>
+                    <div class="col-sm-6">
+                        <input type="text" asp-for="@Model.SensorTecnicalType" id="SensorTecnicalType" class="form-control input-sm">
+                    </div>
+                </div>
+
+
+                <button type="button" class="btn btn-icon waves-effect waves-light btn-success m-b-5" onclick="ReceivedSMS_Save();"> <i class="zmdi zmdi-check" style="font-weight: bolder;"></i> </button>
+                @*<button class="btn btn-icon waves-effect waves-light btn-danger m-b-5" onclick="Custombox.close();">  <i class="zmdi zmdi-close" style="font-weight: bolder;"></i> </button>*@
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.PageTitle = "ویرایش تنظیمات سنسور ها";
+}
+
+<div class="row headerbox">
+    <div class="col-sm-12">
+        <div class="project-sort pull-left">
+            <div class="project-sort-item">
+                <div class="form-inline">
+
+                    <div class="form-group">
+                        <label>انتخاب پروژه :</label>
+                        <select id="SensorSetting_Project" asp-items="@ViewBag.ProjectList" class="form-control input-sm" style="width: 300px;margin: 3px 0 10px 10px;">
+                            <option selected>تمام موارد</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>انتخاب ایستگاه :</label>
+                        <select id="SensorSetting_Station" class="form-control input-sm" style="width: 300px;margin: 3px 0 10px 10px;">
+                            <option selected>تمام ایستگاه ها</option>
+                        </select>
+                    </div>
+                    @*<button onclick="filter()" type="button" style="padding:4px 0 2px 0px" class="btn btn-primary waves-effect w-md waves-light m-b-5">فیلتر سازی</button>*@
+                </div>
+            </div>
+        </div>
+    </div><!-- end col--><!-- end col-->
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <h4 class="header-title m-t-0" id="SensorSetting_ListTitle">لیست کلی سنسور ها</h4>
+            <h6>سنسورهای حقیقی <i style="float:right;width:20px;height:20px;border-radius:100px;background-color:#F80;margin-left: 5px;"></i></h6>
+
+            <h6>سنسورهای مجازی <i style="float:right;width:20px;height:20px;border-radius:100px;background-color:#ededed;margin-left: 5px;"></i></h6>
+            <div id="SensorSetting_List">
+
+            </div>
+        </div>
+    </div><!-- end col -->
+</div>
+
+@section Scripts{
+    <!-- Datatables-->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.bootstrap.js"></script>
+    <script src="~/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables/buttons.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/jszip.min.js"></script>
+    <script src="~/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.fixedHeader.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.keyTable.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables/responsive.bootstrap.min.js"></script>
+    <script src="~/plugins/datatables/dataTables.scroller.min.js"></script>
+
+    <!-- Datatable init js -->
+    <script src="~/pages/datatables.init.js"></script>
+    <script src="~/MyScript/SensorSetting/SensorSetting.js"></script>
+    
+       }

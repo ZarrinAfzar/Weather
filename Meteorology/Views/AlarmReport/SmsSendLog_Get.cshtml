@@ -1,0 +1,28 @@
+﻿@using  Weather.Data.Base;
+@model IEnumerable<SmsSend>
+
+<table id="datatable-buttons" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+                      
+            <th>تلفن</th>
+            <th>تاریخ ارسال</th>
+            <th>متن پیامک</th>
+            <th>وضعیت ارسال</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>@item.PhoneNumber</td>
+            <td>@item.SendDate.ToPeString("yyyy/MM/dd HH:mm")</td>
+            <td>@item.Text</td>
+            <td>@item.Status</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,33 @@
+﻿@using Weather.Data.Base;
+@model List<SendSMS>
+ <table class="table table-condensed m-0 ">
+                <thead>
+                    <tr>
+                        <th>دریافت کننده</th>
+                        <th>شماره تلفن</th>
+                        <th>وضعیت</th>
+                        <th>تاریخ ارسال</th>
+                        <th>متن پیامک</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    @item.To
+                                </td>
+                                <td>@item.Status</td>
+                                <td>@item.DatePrs</td>
+                                <td>
+                                    @item.Message
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>

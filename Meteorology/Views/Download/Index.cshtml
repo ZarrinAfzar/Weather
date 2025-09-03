@@ -1,0 +1,108 @@
+﻿@using Weather.Data.Base
+@using Weather.Data.Enums
+@model List<Files>
+@{
+    ViewBag.PageTitle = "دانلودها";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card-box taskboard-box " style="padding: 10px;">
+            <h4 class="header-title m-t-0 m-b-30 text-primary">نرم افزار ها</h4>
+
+            <ul class="list-unstyled task-list litelCardBox" id="drag-upcoming">
+                @{
+                    foreach (var item in Model)
+                    {
+                        if (item.Type == EnuFiles.SoftWare)
+                        {
+                            <li>
+                                <div class="card-box downloadCardBox">
+                                    <div class="">
+                                        @*<span class="label label-default pull-right downloadBoxStyle" >13 دانلود شده</span>*@
+                                        <span class="label label-default pull-right downloadBoxStyle">@item.InsertDate.ToPeString("dddd, dd MMMM,yyyy")</span>
+                                        <span class="label label-primary pull-right downloadBoxStyle"><a href="~/UploadFiles/@item.File" style="color:#fff;">دانلود</a></span>
+                                        <h5 class="font-600 m-b-5">عنوان فایل :</h5>
+                                        <p> @item.Title</p>
+                                        <h5 class="font-600 m-b-5">توضیحات فایل :</h5>
+                                        <p>@item.Desctription</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                }
+            </ul>
+
+        </div>
+    </div><!-- end col -->
+
+
+    <div class="col-md-4">
+        <div class="card-box taskboard-box " style="padding: 10px;">
+            <h4 class="header-title m-t-0 m-b-30 text-success  ">کاتالوگ ها</h4>
+
+            <ul class="list-unstyled task-list litelCardBox" id="drag-upcoming">
+                @{
+                    foreach (var item in Model)
+                    {
+                        if (item.Type == EnuFiles.Catalogues)
+                        {
+                            <li>
+                                <div class="card-box downloadCardBox">
+                                    <div class="">
+                                        @*<span class="label label-default pull-right downloadBoxStyle" >13 دانلود شده</span>*@
+                                        <span class="label label-default pull-right downloadBoxStyle">@item.InsertDate.ToPeString("dddd, dd MMMM,yyyy")</span>
+                                        <span class="label label-success pull-right downloadBoxStyle"><a href="~/UploadFiles/@item.File" style="color:#fff;">دانلود</a></span>
+                                        <h5 class="font-600 m-b-5">عنوان فایل :</h5>
+                                        <p> @item.Title</p>
+                                        <h5 class="font-600 m-b-5">توضیحات فایل :</h5>
+                                        <p>@item.Desctription</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                }
+            </ul>
+
+        </div>
+    </div><!-- end col -->
+
+
+    <div class="col-md-4">
+        <div class="card-box taskboard-box " style="padding: 10px;">
+            <h4 class="header-title m-t-0 m-b-30 text-warning ">مقالات و آموزش</h4>
+
+            <ul class="list-unstyled task-list litelCardBox" id="drag-upcoming">
+                @{
+                    foreach (var item in Model)
+                    {
+                        if (item.Type == EnuFiles.Articles)
+                        {
+                            <li>
+                                <div class="card-box downloadCardBox">
+                                    <div class="">
+                                        @*<span class="label label-default pull-right downloadBoxStyle" >13 دانلود شده</span>*@
+                                        <span class="label label-default pull-right downloadBoxStyle">@item.InsertDate.ToPeString("dddd, dd MMMM,yyyy")</span>
+                                        <span class="label label-warning pull-right downloadBoxStyle"><a href="~/UploadFiles/@item.File" style="color:#fff;">دانلود</a></span>
+                                        <h5 class="font-600 m-b-5">عنوان فایل :</h5>
+                                        <p> @item.Title</p>
+                                        <h5 class="font-600 m-b-5">توضیحات فایل :</h5>
+                                        <p>@item.Desctription</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    }
+                }
+            </ul>
+        </div>
+    </div><!-- end col -->
+
+
+</div>
+<!-- end row -->

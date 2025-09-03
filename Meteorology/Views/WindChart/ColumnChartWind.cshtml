@@ -1,0 +1,44 @@
+﻿@model Weather.Data.ViewModel.WindSpeedChartViewModel
+
+<div id="container" class="col-md-12" style="height:550px"></div>
+<div id="containerBar" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div style="display:none">
+    <table id="freq" border="0" cellspacing="1" cellpadding="1">
+        <tr nowrap bgcolor="#CCCCFF">
+            <th colspan="9" class="hdr">Table of Frequencies (percent) &lt; </th>
+        </tr>
+        <tr nowrap bgcolor="#CCCCFF">
+            <th class="freq">Direction</th>
+            <th class="freq">0.5 -> 1 m/s</th>
+            <th class="freq">1 -> 2.1 m/s</th>
+            <th class="freq">2.1 -> 3.6 m/s</th>
+            <th class="freq">3.6 -> 5.7 m/s</th>
+            <th class="freq">5.7 -> 8.8 m/s</th>
+            <th class="freq">8.8 -> 11.1 m/s</th>
+            <th class="freq">&gt; 11.1 m/s</th>
+            <th class="freq">Total </th>
+        </tr>
+        @{
+            for (int i = 0; i < Model.WindChartViewModels.Count; i++)
+            {
+                <tr nowrap>
+                    <td class="dir">@Model.WindChartViewModels[i].Direction</td>
+                    @{
+                        for (int j = 0; j < Model.WindChartViewModels[i].Speeds.Count; j++)
+                        {
+                            <td class="data">@Model.WindChartViewModels[i].Speeds[j]</td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<input type="hidden" id="speed1" value="@Model.SpeedChartViewModels[0].value" />
+<input type="hidden" id="speed2" value="@Model.SpeedChartViewModels[1].value" />
+<input type="hidden" id="speed3" value="@Model.SpeedChartViewModels[2].value" />
+<input type="hidden" id="speed4" value="@Model.SpeedChartViewModels[3].value" />
+<input type="hidden" id="speed5" value="@Model.SpeedChartViewModels[4].value" />
+<input type="hidden" id="speed6" value="@Model.SpeedChartViewModels[5].value" />
+<input type="hidden" id="speed7" value="@Model.SpeedChartViewModels[6].value" />
