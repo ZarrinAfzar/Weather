@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using Org.BouncyCastle.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -176,60 +178,60 @@ namespace Weather.Controllers
 
         private string getField(int stationId, string computingType)
         {
-            var sensorTypeName = _genericUoW.Repository<SensorSetting>()
-                .GetAll(n => n.StationId == stationId, n => n.SensorTypes)
+            // گرفتن همه سنسورهای فعال با navigation properties لازم
+            var sensorTypes = _genericUoW.Repository<SensorSetting>()
+                .GetAll(
+                    n => n.StationId == stationId && n.SensorEnable,
+                    n => n.SensorTypes,
+                    n => n.SensorTypes.Unit
+                )
                 .Select(n => new
                 {
-                    n.SensorTypes.FaName,
-                    n.SensorTypes.Min,
-                    n.SensorTypes.Max,
-                    n.SensorTypes.AVG,
-                    n.SensorTypes.Sum
+                    SensorId = n.Id,
+                    FaName = n.SensorTypes?.FaName ?? "",
+                    MinEnabled = n.SensorTypes?.Min ?? false,
+                    MaxEnabled = n.SensorTypes?.Max ?? false,
+                    AvgEnabled = n.SensorTypes?.AVG ?? false,
+                    SumEnabled = n.SensorTypes?.Sum ?? false,
+                    UnitName = n.SensorTypes?.Unit?.EnName ?? ""
                 })
                 .OrderBy(n => n.FaName)
-                .Distinct()
                 .ToList();
 
-            try
-            {
-                string result = "";
+            string result = "";
 
-                foreach (var sensortype in sensorTypeName)
+            var grouped = sensorTypes.GroupBy(s => s.FaName);
+
+            foreach (var group in grouped)
+            {
+                var sensorIds = group.Select(s => s.SensorId).ToList();
+                string idsStr = string.Join(",", sensorIds);
+                string faName = group.Key;
+                string unitName = group.Select(s => s.UnitName).FirstOrDefault() ?? "";
+
+                // Max
+                if (computingType.Contains("Max") && group.Any(s => s.MaxEnabled))
                 {
-                    var sensorId = _genericUoW.Repository<SensorSetting>()
-                        .GetAll(n => n.StationId == stationId && n.SensorTypes.FaName == sensortype.FaName, n => n.SensorTypes)
-                        .Select(n => new { n.Id })
-                        .ToList();
-
-                    string Ids = sensorId[0].Id.ToString();
-                    for (int i = 1; i < sensorId.Count; i++)
-                    {
-                        Ids += "," + sensorId[i].Id.ToString();
-                    }
-                    if (computingType.Contains("Max") && sensortype.Max)
-                    {
-                        result += $",Round(MAX(CASE WHEN SensorSetting.Id in({Ids}) THEN Data ELSE NULL END),2) as N'{sensortype.FaName} (حداکثر)'";
-                    }
-                    if (computingType.Contains("Min") && sensortype.Min)
-                    {
-                        result += $",Round(MIN(CASE WHEN SensorSetting.Id in({Ids}) THEN Data ELSE NULL END),2) as N'{sensortype.FaName} (حداقل)'";
-                    }
-                    if (computingType.Contains("Avg") && sensortype.AVG)
-                    {
-                        result += $",Round(AVG(CASE WHEN SensorSetting.Id in({Ids}) THEN Data ELSE NULL END),2) as N'{sensortype.FaName} (میانگین)'";
-                    }
-                    if (computingType.Contains("Sum") && sensortype.Sum)
-                    {
-                        result += $",Round(SUM(CASE WHEN SensorSetting.Id in({Ids}) THEN Data ELSE NULL END),2) as N'{sensortype.FaName} (مجموع)'";
-                    }
+                    result += $",Round(MAX(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
                 }
+                // Min
+                if (computingType.Contains("Min") && group.Any(s => s.MinEnabled))
+                {
+                    result += $",Round(MIN(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
+                }
+                // Avg
+                if (computingType.Contains("Avg") && group.Any(s => s.AvgEnabled))
+                {
+                    result += $",Round(AVG(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
+                }
+                // Sum
+                if (computingType.Contains("Sum") && group.Any(s => s.SumEnabled))
+                {
+                    result += $",Round(SUM(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
+                }
+            }
 
-                return result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return result;
         }
 
         [HttpGet]
@@ -241,7 +243,7 @@ namespace Weather.Controllers
                 DateTime stDate = startDate.ToGreDateTime();
                 DateTime enDate = endDate.ToGreDateTime();
 
-                // 1) Parse selected sensor ids
+                // Parse selected sensor ids
                 var ids = new List<long>();
                 if (!string.IsNullOrWhiteSpace(sensorselected))
                 {
@@ -251,7 +253,7 @@ namespace Weather.Controllers
                             .ToList();
                 }
 
-                // 2) Build SP params (match list view)
+                //  Build SP params (match list view)
                 DataTable model;
                 var fields = string.IsNullOrEmpty(computingType) ? "" : getField(stationId, computingType);
 
@@ -264,7 +266,7 @@ namespace Weather.Controllers
                     p[2, 0] = "@StationId"; p[2, 1] = stationId.ToString();
                     p[3, 0] = "@DateType"; p[3, 1] = reportType;
                     p[4, 0] = "@Fields"; p[4, 1] = fields;
-                    p[5, 0] = "@Take"; p[5, 1] = int.MaxValue.ToString(); // همه رکوردها
+                    p[5, 0] = "@Take"; p[5, 1] = int.MaxValue.ToString();
                     p[6, 0] = "@Skip"; p[6, 1] = "0";
 
                     model = _genericUoW.GetFromSp(p, "Sp_SensorData_Shifted");
@@ -281,7 +283,7 @@ namespace Weather.Controllers
                     model = _genericUoW.GetFromSp(p, "Sp_SensorDataExport");
                 }
 
-                // 3) Collect allowed FA names (only selected sensors)
+                //  Collect allowed FA names (only selected sensors)
                 var allSensorFaNames = _genericUoW.Repository<SensorSetting>()
                     .GetAll(n => n.StationId == stationId, n => n.SensorTypes)
                     .Select(n => n.SensorTypes.FaName)
@@ -296,7 +298,7 @@ namespace Weather.Controllers
                         .ToList()
                     : allSensorFaNames;
 
-                // 4) Same normalization helpers as list action
+                //  Same normalization helpers as list action
                 Func<string, string> norm = s =>
                 {
                     if (string.IsNullOrWhiteSpace(s)) return "";
@@ -318,7 +320,7 @@ namespace Weather.Controllers
                     StringComparer.OrdinalIgnoreCase
                 );
 
-                // 5) Drop extra columns so Excel == UI
+                //  Drop extra columns so Excel == UI
                 var toRemove = model.Columns.Cast<DataColumn>()
                     .Where(c => !allowedBase.Contains(baseName(c.ColumnName)))
                     .Select(c => c.ColumnName)
@@ -327,12 +329,21 @@ namespace Weather.Controllers
                 foreach (var col in toRemove)
                     model.Columns.Remove(col);
 
-                // 6) Move DateTime to first & format Persian
+                //  Move DateTime to first & format Persian
                 if (model.Columns.Contains("DateTime"))
                 {
                     model.Columns.Add("تاریخ", typeof(string));
-                    foreach (DataRow row in model.Rows)
-                        row["تاریخ"] = Convert.ToDateTime(row["DateTime"]).ToPeString("HH:mm:ss yyyy/MM/dd");
+                    if (reportType.Equals("DAY", StringComparison.OrdinalIgnoreCase) || reportType.Equals("MONTH", StringComparison.OrdinalIgnoreCase))
+                    {
+                        foreach (DataRow row in model.Rows)
+                            row["تاریخ"] = Convert.ToDateTime(row["DateTime"]).ToPeString("18:30:00 yyyy/MM/dd");
+                    }
+                    else
+                    {
+                        foreach (DataRow row in model.Rows)
+                            row["تاریخ"] = Convert.ToDateTime(row["DateTime"]).ToPeString("HH:mm:ss yyyy/MM/dd");
+                    }
+
 
                     model.Columns.Remove("DateTime");
                     model.Columns["تاریخ"].SetOrdinal(0);

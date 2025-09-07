@@ -16,9 +16,8 @@
                     }
                     else
                     {
-                        <th>@item.Caption</th>
+                         <th>@item.Caption</th>
                     }
-
                 }
             }
         </tr>
@@ -40,11 +39,11 @@
                                 }
                                 else if (ViewBag.DateType == "DAY")
                                 {
-                                    <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM/dd")</td>
+                                    <td>@Convert.ToDateTime(dr[dc]).ToPeString("18:30:00 yyyy/MM/dd")</td>
                                 }
                                 else
                                 {
-                                    <td>@Convert.ToDateTime(dr[dc]).ToPeString("yyyy/MM")</td>
+                                    <td>@Convert.ToDateTime(dr[dc]).ToPeString("18:30:00 yyyy/MM")</td>
                                 }
                             }
 

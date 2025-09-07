@@ -10,10 +10,6 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp2.0</TargetFramework>
-		<Version>1.0.0</Version>
-		<AssemblyVersion>1.0.0.0</AssemblyVersion>
-		<FileVersion>1.0.0.0</FileVersion>
-		<InformationalVersion>1.0.0</InformationalVersion>
 		<UserSecretsId>b4b3fb53-771d-46ab-9ba9-5f75a92446e2</UserSecretsId>
 	</PropertyGroup>
 
