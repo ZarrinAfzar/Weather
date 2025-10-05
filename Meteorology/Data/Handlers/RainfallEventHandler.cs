@@ -24,56 +24,76 @@ namespace Weather.Data.Handlers
 
         public async Task ProcessRainfallAsync(SensorDateTime data, double oldData, long userId = 1)
         {
+            // محاسبه increment بر اساس نوع حسگر
+            double increment = 0;
+            switch (data.SensorSetting.SensorTypeId)
+            {
+                case 2: // Cumulative
+                    increment = Math.Max(Math.Round(data.Data - oldData, 1), 0);
+                    break;
+                case 4: // Instantaneous (اختلاف واقعی، ممکن است منفی باشد)
+                    increment = Math.Round(data.Data - oldData, 1);
+                    break;
+                default:
+                    increment = 0;
+                    break;
+            }
 
-            var increment = Math.Max(Math.Max(data.Data - oldData, data.Data), 0);
             bool rainingNow = increment > 0;
 
+            // بازیابی آخرین رویداد مرتبط با حسگر
             var lastEvent = (await _repo.GetAllQueryableAsync(r => r.SensorSettingId == data.SensorSettingId))
-                .OrderByDescending(r => r.Id)
-                .FirstOrDefault();
+                            .OrderByDescending(r => r.Id)
+                            .FirstOrDefault();
 
             if (rainingNow)
             {
-                if (lastEvent == null || !lastEvent.IsRaining && (data.DateTime - lastEvent.RainEnd) > RainEndThreshold)
+                if (lastEvent == null)
                 {
-                    // ایجاد رویداد جدید
+                    // هیچ رویدادی وجود ندارد → ایجاد رویداد جدید
                     await CreateNewRainEventAsync(data, increment, userId);
                 }
-                else if (!lastEvent.IsRaining && (data.DateTime - lastEvent.RainEnd) <= RainEndThreshold)
+                else
                 {
-                    // Resume رویداد قبلی
-                    lastEvent.IsRaining = true;
-                    lastEvent.LastIdWithRain = data.Id;
-                    lastEvent.RainEnd = data.DateTime;
-                    lastEvent.RainfallVolume += increment;
-                    await _repo.UpdateAsync(lastEvent);
-                    await _uow.SaveAsync(userId, EnuAction.Update, nameof(RainfallEvent));
-                }
-                else if (lastEvent.IsRaining && (data.DateTime - lastEvent.RainEnd) <= RainEndThreshold)
+                    var gap = data.DateTime - lastEvent.RainEnd;
 
-                {
+                    if (!lastEvent.IsRaining || gap > RainEndThreshold)
+                    {
+                        // اگر رویداد قبلی هنوز فعال است ولی فاصله زیاد است → پایان رویداد قبلی
+                        if (lastEvent.IsRaining)
+                            await EndRainEventAsync(lastEvent, userId);
 
-                    // بروزرسانی رویداد فعال
-                    lastEvent.LastIdWithRain = data.Id;
-                    lastEvent.RainEnd = data.DateTime;
-                    lastEvent.RainfallVolume += increment;
-                    await _repo.UpdateAsync(lastEvent);
-                    _uow.Save(userId, EnuAction.Update, nameof(RainfallEvent));
-                }
-                if (increment > 0 && lastEvent != null && (data.DateTime - lastEvent.RainEnd) >= RainEndThreshold)
-                {
-                    await EndRainEventAsync(lastEvent, userId);
-                    await CreateNewRainEventAsync(data, increment, userId);
+                        // ایجاد رویداد جدید
+                        await CreateNewRainEventAsync(data, increment, userId);
+                    }
+                    else
+                    {
+                        // ادامه یا Resume رویداد موجود
+                        lastEvent.IsRaining = true;
+                        lastEvent.LastIdWithRain = data.Id;
+                        lastEvent.RainEnd = data.DateTime;
+
+                        // برای TypeId 2 و 4 مقدار صحیح را اضافه کن
+                        if (data.SensorSetting.SensorTypeId == 2)
+                            lastEvent.RainfallVolume += increment; // تجمعی
+                        else if (data.SensorSetting.SensorTypeId == 4)
+                            lastEvent.RainfallVolume += increment; // اختلاف واقعی
+
+                        await _repo.UpdateAsync(lastEvent);
+                        await _uow.SaveAsync(userId, EnuAction.Update, nameof(RainfallEvent));
+                    }
                 }
             }
             else if (lastEvent != null && lastEvent.IsRaining)
             {
+                // باران متوقف شده → بررسی پایان رویداد
                 if ((data.DateTime - lastEvent.RainEnd) > RainEndThreshold)
                 {
                     await EndRainEventAsync(lastEvent, userId);
                 }
             }
         }
+
 
         private async Task CreateNewRainEventAsync(SensorDateTime data, double increment, long userId)
         {
