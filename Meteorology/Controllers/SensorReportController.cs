@@ -212,22 +212,22 @@ namespace Weather.Controllers
                 // Max
                 if (computingType.Contains("Max") && group.Any(s => s.MaxEnabled))
                 {
-                    result += $",Round(MAX(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
+                    result += $",Round(MAX(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} (حداکثر) ({unitName})'";
                 }
                 // Min
                 if (computingType.Contains("Min") && group.Any(s => s.MinEnabled))
                 {
-                    result += $",Round(MIN(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
+                    result += $",Round(MIN(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} (حداقل) ({unitName})'";
                 }
                 // Avg
                 if (computingType.Contains("Avg") && group.Any(s => s.AvgEnabled))
                 {
-                    result += $",Round(AVG(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
+                    result += $",Round(AVG(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} (میانگین) ({unitName})'";
                 }
                 // Sum
                 if (computingType.Contains("Sum") && group.Any(s => s.SumEnabled))
                 {
-                    result += $",Round(SUM(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} ({unitName})'";
+                    result += $",Round(SUM(CASE WHEN SensorSetting.Id in({idsStr}) THEN Data ELSE NULL END),2) as N'{faName} (مجموع) ({unitName})'";
                 }
             }
 

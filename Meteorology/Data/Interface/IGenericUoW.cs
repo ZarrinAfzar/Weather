@@ -1,16 +1,13 @@
-﻿using Weather.Data.Enums;
-using Weather.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Weather.Data.Enums;
 
 namespace Weather.Data.Interface
 {
     public interface IGenericUoW
     {
-        IRepository<T> Repository<T>() where T : class; 
-        bool Save(long UserId, EnuAction ActionType,  string EntityName); 
+        IRepository<T> Repository<T>() where T : class;
+        Task<bool> SaveAsync(long userId, EnuAction actionType, string entityName);
+        bool Save(long userId, EnuAction actionType, string entityName);
+        void DetachAllEntities();
     }
 }

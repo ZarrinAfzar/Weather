@@ -68,7 +68,7 @@ namespace Weather.Controllers
         public async Task<JsonResult> ReceivedSMS_Save(ReceivedSMS modelold)
         {
             User user = await _userManager.GetUserAsync(HttpContext.User);
-            var model = new ReceivedSMS();  
+            var model = new ReceivedSMS();
             model = _genericUoW.Repository<ReceivedSMS>().GetById(modelold.Id);
             model.Value = modelold.Value;
             _genericUoW.Repository<ReceivedSMS>().Update(model, modelold);

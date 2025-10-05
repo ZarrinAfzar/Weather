@@ -7,7 +7,7 @@ namespace Weather.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             var sp = @"
-CREATE OR ALTER PROCEDURE [dbo].[Sp_SensorData_Shifted]
+CREATE PROCEDURE [dbo].[Sp_SensorData_Shifted]
     @FromDate   DATETIME,
     @ToDate     DATETIME,
     @StationId  INT,

@@ -9,13 +9,13 @@ namespace Weather.Models
     /// <summary>
     /// مقادیر سنسورها
     /// </summary>
-    public class SensorDateTime:BaseModel
+    public class SensorDateTime : BaseModel
     {
         /// <summary>
         /// کلید خارجی جدول سنسورها
         /// </summary>
-        [ForeignKey("SensorSetting")] 
-        public long SensorSettingId { get; set; }
+        [ForeignKey("SensorSetting")]
+        public int SensorSettingId { get; set; }
         /// <summary>
         /// تاریخ
         /// </summary>
@@ -25,7 +25,7 @@ namespace Weather.Models
         /// </summary>
         public double Data { get; set; }
         //------------------------------------------------------------
-        public virtual SensorSetting SensorSetting { get; set; } 
+        public virtual SensorSetting SensorSetting { get; set; }
         //public virtual ICollection<SensorData> SensorDatas { get; set; }
     }
 }

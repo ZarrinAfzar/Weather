@@ -19,15 +19,15 @@ namespace Weather.Data
         public DataBaseContext(DbContextOptions<DataBaseContext> options)
             : base(options)
         {
-
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SensorDateTime>().HasIndex(b => b.DateTime);
+            modelBuilder.Entity<SensorDateTime>()
+                .HasIndex(b => b.DateTime);
 
             base.OnModelCreating(modelBuilder);
         }
-
         public void OpenConnection()
         {
             Database.OpenConnection();
@@ -75,6 +75,9 @@ namespace Weather.Data
         public DbSet<VirtualSensorBase> VirtualSensorBase { get; set; }
         public DbSet<VirtualSensorDetail> VirtualSensorDetail { get; set; }
         public DbSet<VersionHistory> VersionHistories { get; set; }
+        public DbSet<RainfallEvent> RainfallEvents { get; set; }
+        public DbSet<ProcessedData> ProcessedDatas { get; set; }
+
     }
     #region IDesignTimeDbContextFactory
     //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataBaseContext>

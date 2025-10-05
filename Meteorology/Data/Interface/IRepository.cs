@@ -8,42 +8,26 @@ namespace Weather.Data.Interface
 {
     public interface IRepository<T> where T : class
     {
+        // ✅ Async
+        Task InsertAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
+        Task<IQueryable<T>> GetAllQueryableAsync(Expression<Func<T, bool>> predicate);
 
-
-        #region Async
-        //Task<IEnumerable<T>> GetAllasync(Func<T, bool> predicate = null);
-        //Task<T> GetByIdasync(int id);
-
-        //Task Insertasync(T entity);
-
-        //Task Updateasync(T entity);
-        //Task Updateasync(T entity, T old);
-
-        //Task Deleteasync(T entity);
-        //Task Deleteasync(int entity);
-        #endregion
-
-
-        #region Sync 
-        List<T> GetAll(Func<T, bool> predicate = null,   params Expression<Func<T, object>>[] includeProperties);
-        IEnumerable<T> GetAllByQuery(Func<T, bool> predicate = null,   params Expression<Func<T, object>>[] includeProperties);
-        //IEnumerable<T> GetAll(Func<T, bool> predicate = null, Expression<Func<T, object>> orderPredicate);
-        //IEnumerable<T> GetAll(Func<T, bool> predicate = null, params Expression<Func<T, object>>[] includeProperties);
-        //IEnumerable<T> GetAll(Func<T, bool> predicate = null, Expression<Func<T, object>> orderPredicate, params Expression<Func<T, object>>[] includeProperties);
-        T GetById(long id); 
+        // ✅ Sync
+        List<T> GetAll(Func<T, bool> predicate = null, params Expression<Func<T, object>>[] includeProperties);
+        IEnumerable<T> GetAllByQuery(Func<T, bool> predicate = null, params Expression<Func<T, object>>[] includeProperties);
+        IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties);
+        T GetById(long id);
 
         void Insert(T entity);
-        void InsertRange(List<T> entitys); 
+        void InsertRange(List<T> entities);
 
         void Update(T entity);
-        void UpdateRange(List<T> entity);
+        void UpdateRange(List<T> entities);
         void Update(T entity, T old);
-        void UpdateRange(List<T> entity, List<T> old);
 
         void Delete(T entity);
-        void Delete(long entity);
-        #endregion
-
-
+        void Delete(long id);
     }
 }

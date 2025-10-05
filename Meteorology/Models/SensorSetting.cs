@@ -9,8 +9,9 @@ namespace Weather.Models
     /// <summary>
     /// تنظیمات سنسورها
     /// </summary>
-    public class SensorSetting: BaseModel
+    public class SensorSetting
     {
+        public int Id { get; set; }
         /// <summary>
         /// کلید خارجی ایستگاه
         /// </summary>
@@ -45,7 +46,7 @@ namespace Weather.Models
         /// <summary>
         /// تعداد اعشار
         /// </summary>
-        public int? SensorDigit{ get; set; } 
+        public int? SensorDigit { get; set; }
         /// <summary>
         /// کمترین مقدار
         /// </summary>
@@ -65,20 +66,19 @@ namespace Weather.Models
         /// <summary>
         ///نوع تکنیکی سنسور
         /// </summary>
-        public string  SensorTecnicalType{ get; set; }
+        public string SensorTecnicalType { get; set; }
         /// <summary>
         /// تاریخ
         /// </summary>
-        public  DateTime SensorDateTime { get; set; }
-
+        public DateTime SensorDateTime { get; set; }
 
 
         //-----------------------------------------------------------
         public virtual Station Station { get; set; }
         public virtual Unit Unit { get; set; }
-        public virtual SensorType SensorTypes { get; set; } 
+        public virtual SensorType SensorTypes { get; set; }
         public virtual ICollection<SensorDateTime> SensorDateTimes { get; set; }
-
-
+        public virtual ICollection<RainfallEvent> RainfallEvents { get; set; }
+        public virtual ProcessedData ProcessedData { get; set; }
     }
 }

@@ -1,162 +1,96 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Weather.Data.Interface;
-using Microsoft.EntityFrameworkCore;
 
 namespace Weather.Data.Repository
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-
-        private readonly DbContext _dbContext = null;
+        private readonly DataBaseContext _dbContext;
         private readonly DbSet<T> _dbSet;
-        public GenericRepository(DbContext dbContext)
+
+        public GenericRepository(DataBaseContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _dbSet = _dbContext.Set<T>();
         }
 
+        // ✅ Async Methods
+        public async Task InsertAsync(T entity) => await _dbSet.AddAsync(entity);
 
+        public async Task UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+            await Task.CompletedTask;
+        }
 
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        {
+            return predicate == null
+                ? await _dbSet.ToListAsync()
+                : await _dbSet.Where(predicate).ToListAsync();
+        }
 
-        #region Async
- 
-        //public T GetByIdasync(int id)
-        //{
-        //    return _dbSet.Find(id);
-        //}
+        public async Task<IQueryable<T>> GetAllQueryableAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await Task.FromResult(
+                predicate == null ? _dbSet.AsQueryable() : _dbSet.Where(predicate).AsQueryable()
+            );
+        }
 
-        //public void Insertasync(T entity)
-        //{
-        //    _dbSet.Add(entity);
-        //}
-
-        //public void Updateasync(T entity)
-        //{
-        //    _dbSet.Update(entity);
-        //}
-
-        //public void Updateasync(T entity, T old)
-        //{
-        //    _dbContext.Entry(old).CurrentValues.SetValues(entity);
-        //}
-
-        //public void Deleteasync(T entity)
-        //{
-        //    _dbSet.Remove(entity);
-        //}
-
-        //public void Deleteasync(int id)
-        //{
-        //    T entityToDelete = _dbSet.Find(id);
-        //    Delete(entityToDelete);
-        //}
-        #endregion
-
-
-        #region sync
-        public List<T> GetAll(Func<T, bool> predicate = null,  params Expression<Func<T, object>>[] includeProperties)
+        // ✅ Sync Methods
+        public List<T> GetAll(Func<T, bool> predicate = null, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _dbSet;
             foreach (var property in includeProperties)
-            {
                 query = query.Include(property);
-            }
-            if (predicate != null)
-            {
-                query = query.Where(predicate).AsQueryable();
-            }
 
-            return query.ToList();
+            return predicate == null ? query.ToList() : query.Where(predicate).ToList();
         }
-        //public IQueryable<T> GetAllByQuery(Func<T, bool> predicate = null, params Expression<Func<T, object>>[] includeProperties)
-        //{
-        //    IQueryable<T> query = _dbSet;
-        //    if (includeProperties != null)
-        //    {
-        //        foreach (var property in includeProperties)
-        //        {
-        //            query = query.Include(property);
-        //        }
-        //    }
-        //    if (predicate != null)
-        //    {
-        //        query = query.Where(predicate).AsQueryable();
-        //    }
-        //    return query;
-        //}
 
         public IEnumerable<T> GetAllByQuery(Func<T, bool> predicate = null, params Expression<Func<T, object>>[] includeProperties)
         {
+            IQueryable<T> query = _dbSet.AsNoTracking();
+            foreach (var property in includeProperties)
+                query = query.Include(property);
+
+            return predicate == null ? query : query.Where(predicate).AsQueryable();
+        }
+
+        public IQueryable<T> GetAllQueryable(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties)
+        {
             IQueryable<T> query = _dbSet;
-            query.AsNoTracking();
-            if (includeProperties != null)
-            {
-                foreach (var property in includeProperties)
-                {
-                    query = query.Include(property);
-                }
-            }
-            if (predicate != null)
-            {
-                query = query.Where(predicate).AsQueryable();
-            }
-            return query; 
+            foreach (var property in includeProperties)
+                query = query.Include(property);
+
+            return predicate == null ? query : query.Where(predicate);
         }
 
+        public T GetById(long id) => _dbSet.Find(id);
 
+        public void Insert(T entity) => _dbSet.Add(entity);
+        public void InsertRange(List<T> entities) => _dbSet.AddRange(entities);
 
-        public T GetById(long id)
-        {
-            return _dbSet.Find(id);
-        } 
+        public void Update(T entity) => _dbSet.Update(entity);
+        public void UpdateRange(List<T> entities) => _dbSet.UpdateRange(entities);
 
-
-        public void Insert(T entity)
-        {
-            _dbSet.Add(entity);
-        }
-        public void InsertRange(List<T> entitys) 
-        {
-            _dbSet.AddRange(entitys); 
-        }
-
-
-        public void Update(T entity)
-        {
-            _dbSet.Update(entity);
-        }
-        public void UpdateRange(List<T> entity)
-        {
-            _dbSet.UpdateRange(entity);
-        }
         public void Update(T entity, T old)
         {
-            _dbContext.Entry(old).CurrentValues.SetValues(entity);
-        }
-        public void UpdateRange(List<T> entity, List<T> old)
-        {
+            if (entity == null || old == null) return;
             _dbContext.Entry(old).CurrentValues.SetValues(entity);
         }
 
+        public void Delete(T entity) => _dbSet.Remove(entity);
 
-        public void Delete(T entity)
-        {
-            _dbSet.Remove(entity);
-        }
         public void Delete(long id)
         {
-            T entityToDelete = _dbSet.Find(id);
-            Delete(entityToDelete);
+            T entity = _dbSet.Find(id);
+            if (entity != null)
+                Delete(entity);
         }
-
-
-
-        #endregion
-
     }
-
 }

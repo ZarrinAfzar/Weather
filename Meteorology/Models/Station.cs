@@ -12,11 +12,11 @@ namespace Weather.Models
     /// ایستگاه ها
     /// </summary>
     public class Station : BaseModel
-    { 
+    {
         /// <summary>
         /// نام ایستگاه
         /// </summary>
-        public string Name { get; set; } 
+        public string Name { get; set; }
         /// <summary>
         /// شماره سریال
         /// </summary>
@@ -64,7 +64,7 @@ namespace Weather.Models
         /// <summary>
         /// 
         /// </summary>
-        public string AboveSeaLevel { get; set; } 
+        public string AboveSeaLevel { get; set; }
         /// <summary>
         /// کد ایستگاه
         /// </summary>
@@ -88,11 +88,11 @@ namespace Weather.Models
         ///// <summary>
         ///// تصویر ایستگاه
         ///// </summary>
-       public string Image { get; set; }
+        public string Image { get; set; }
         /// <summary>
         /// شماره متصدی
         /// </summary>
-        public string OperatorPhonNO  { get; set; }
+        public string OperatorPhonNO { get; set; }
         /// <summary>
         /// نام متصدی
         /// </summary>
@@ -108,10 +108,11 @@ namespace Weather.Models
         public virtual DataLogger DataLogger { get; set; }
         public virtual StationType StationType { get; set; }
         public virtual ModemType ModemType { get; set; }
-        public virtual ICollection<StationFile> StationFiles { get; set; } 
+        public virtual ICollection<StationFile> StationFiles { get; set; }
         public virtual ICollection<StationTel> StationTels { get; set; }
         public virtual ICollection<SensorSetting> SensorSettings { get; set; }
-        public virtual ICollection<VirtualSensorDetail> VirtualSensorDetails  { get; set; }
+        public virtual ICollection<VirtualSensorDetail> VirtualSensorDetails { get; set; }
+        public virtual ICollection<RainfallEvent> RainfallEvents { get; set; }
 
 
 
